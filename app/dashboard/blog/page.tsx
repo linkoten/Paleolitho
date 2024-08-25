@@ -4,7 +4,7 @@ import { GraphQLClient } from "graphql-request";
 
 export const revalidate = 60
 
-export const getPosts = async () => {
+ const getPosts = async () => {
   const hygraph = new GraphQLClient(
     "https://api-eu-west-2.hygraph.com/v2/clkp6kxt31b6x01ta51b202ki/master"
   );

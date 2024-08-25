@@ -20,7 +20,7 @@ interface Params {
   description: string;
   price: number;
   stock: number;
-  image: string;
+  images: string;
 }
 
 interface UpdatePageProps {
@@ -86,7 +86,7 @@ export default async function CreatePage({ params }: UpdatePageProps) {
           <div className="gap-y-2 flex flex-col">
             <Label htmlFor="image">image</Label>
             <Input
-              defaultValue={product?.image as string}
+              defaultValue={product?.images as string[]}
               placeholder="Image de votre produit"
               type="text"
               name="image"

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import SessionWrapper from "@/lib/SessionWrapper";
+import { Toaster } from "@/components/ui/sonner";
+import Nav from "@/components/Nav";
+import Reg from "@/public/Reg.jpg";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +20,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} relative`}>
+        {/* Image de fond fixe */}
+        <div
+          className="fixed inset-0 bg-cover bg-center -z-10 opacity-20"
+          style={{ backgroundImage: `url(${Reg.src})` }}
+        ></div>
+
+        {/* Contenu défilant */}
+        <div className="relative z-10">
+          <SessionWrapper>
+            <Toaster />
+            <Nav />
+            {children}
+          </SessionWrapper>
+        </div>
+      </body>
     </html>
   );
 }

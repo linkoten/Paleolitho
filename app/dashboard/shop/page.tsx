@@ -72,7 +72,7 @@ export default async function Home({
       
       <div className=" text-center text-xl pt-20">
         {" "}
-        Il n'y a aucun produits qui correspondent à vos critères !
+        Il n&apos;y a aucun produits qui correspondent à vos critères !
       </div>
       <Button> Rétablir les filtres</Button>
       </>

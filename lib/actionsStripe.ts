@@ -41,7 +41,7 @@ export const createSubscription = async () => {
 
   const subscriptionUrl = await getStripeSession({
     customerId: dbUser?.stripeCustomerId as string ,
-    domainUrl: "http://localhost:3000",
+    domainUrl: process.env.DOMAIN_URL as string ,
     priceId: process.env.STRIPE_API_ID as string
   });
 

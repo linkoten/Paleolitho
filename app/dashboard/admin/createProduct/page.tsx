@@ -124,6 +124,16 @@ export default async function page() {
               />
             </div>
             <div className="gap-y-2 flex flex-col">
+              <Label htmlFor="weight">Poids en GRAMMES</Label>
+              <Input
+                placeholder="poids du produit"
+                required
+                type="number"
+                name="weight"
+                id="stock"
+              />
+            </div>
+            <div className="gap-y-2 flex flex-col">
               <Label htmlFor="images">Images</Label>
               <Input
                 placeholder="Lien de l'image 1"
@@ -143,6 +153,48 @@ export default async function page() {
                 type="text"
                 name="images"
                 id="image3"
+              />
+              <Input
+                placeholder="Lien de l'image 4"
+                type="text"
+                name="images"
+                id="image4"
+              />
+              <Input
+                placeholder="Lien de l'image 5"
+                type="text"
+                name="images"
+                id="image5"
+              />
+              <Input
+                placeholder="Lien de l'image 6"
+                type="text"
+                name="images"
+                id="image6"
+              />
+              <Input
+                placeholder="Lien de l'image 7"
+                type="text"
+                name="images"
+                id="image7"
+              />
+              <Input
+                placeholder="Lien de l'image 8"
+                type="text"
+                name="images"
+                id="image8"
+              />
+              <Input
+                placeholder="Lien de l'image 9"
+                type="text"
+                name="images"
+                id="image9"
+              />
+               <Input
+                placeholder="Lien de l'image 10"
+                type="text"
+                name="images"
+                id="image10"
               />
             </div>
           </CardContent>

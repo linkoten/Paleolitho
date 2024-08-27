@@ -253,6 +253,8 @@ export const createProduct = async (formData: FormData) => {
   const stages = formData.get("stages") as string;
   const price = Number(formData.get("price") as unknown);
   const stock = Number(formData.get("stock") as unknown);
+  const weight = Number(formData.get("weight") as unknown);
+
   const images = formData.getAll("images") as string[];
 
   if (
@@ -265,6 +267,7 @@ export const createProduct = async (formData: FormData) => {
     !stages ||
     isNaN(price) ||
     isNaN(stock) ||
+    isNaN(weight) ||
     images.length === 0
   ) {
     throw new Error("Invalid form data");
@@ -281,6 +284,7 @@ export const createProduct = async (formData: FormData) => {
       stages,
       price,
       stock,
+      weight,
       images,
     },
   });

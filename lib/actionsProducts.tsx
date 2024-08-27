@@ -296,9 +296,14 @@ export const deleteProduct = async (formData: FormData) => {
 };
 
 export const getProduct = async (id: string) => {
-  const product = prisma.products.findUnique({
+  const product = await prisma.products.findUnique({
     where: { id: id },
   });
+
+  if (product && product.images) {
+    product.images = product.images.filter(image => image !== '');
+  }
+
   return product;
 };
 

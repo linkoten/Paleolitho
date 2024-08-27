@@ -78,7 +78,6 @@ export default function SelectImage({
     [handleZoomChange]
   );
 
-  console.log(ratings);
   return (
     <section>
       <Card className="w-full max-w-4xl">

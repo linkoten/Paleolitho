@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import ButtonToast from "@/components/ButtonToast";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
-import { addToFavorite } from "@/lib/actionsProducts";
+import {  getFavoritesProducts, toggleFavorite } from "@/lib/actionsProducts";
+import { Star } from "lucide-react";
 
 interface CardProps {
   item: {
@@ -31,9 +32,17 @@ export default async function Card({ item, user }: CardProps) {
   const productId = item.id;
   const userId = user.id;
 
+  const favorite = await getFavoritesProducts(userId);
+
   const toastText = "Le produit a été ajouté au panier";
 
-  console.log("je suis l'item", item);
+  console.log("je suis l'item", favorite?.favorites[0].product.id);
+
+  console.log(item.id);
+
+  const isFavorite = favorite?.favorites.some(
+    (favorite) => favorite.product.id === item.id
+  );
 
   return (
     <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden relative border">
@@ -52,14 +61,11 @@ export default async function Card({ item, user }: CardProps) {
       </Link>
       <div className="p-4">
         <h3 className="text-xl font-semibold mb-2 ">{item.title}</h3>
-        <div className="absolute top-2 right-2 space-x-2 rounded-md">
-          <p className="text-white bg-amber-600 hover:bg-amber-700 ">
+        <div className="flex absolute top-2 right-2 gap-2 justify-center place-items-center">
+          <p className="text-white bg-amber-600 hover:bg-amber-700 rounded-md text-center p-2">
             {item.price}€
           </p>
-          <form
-            className="text-white bg-amber-600 hover:bg-amber-700 "
-            action={addToFavorite}
-          >
+          <form action={toggleFavorite}>
             <Input
               type="text"
               name="userId"
@@ -72,7 +78,14 @@ export default async function Card({ item, user }: CardProps) {
               defaultValue={productId}
               className="  hidden"
             />{" "}
-            <Button type="submit">Add</Button>
+            <Button               type="submit" variant={"outline"}
+            >
+            <Star
+              className={`cursor-pointer ${
+                isFavorite ? "fill-yellow-300" : ""
+              }`}
+            />
+            </Button>
           </form>
         </div>
         <p className="text-gray-400 mb-4 line-clamp-3">{item.description}</p>

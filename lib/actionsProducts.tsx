@@ -23,35 +23,158 @@ export const getFavoritesProducts = async (userId: string) => {
         },
       },
     },
-  }); return favoriteProducts
+  });
+  return favoriteProducts;
 };
 
-export const addToFavorite = async (formData: FormData) => {
+export const toggleFavorite = async (formData: FormData) => {
   const userId = formData.get("userId") as string;
   const productId = formData.get("productId") as string;
- 
+
   try {
-    const favorite = await prisma.favorite.create({
-      data: {
-        userId,
-        productId
+    // Vérifier si le produit est déjà dans les favoris de l'utilisateur
+    const existingFavorite = await prisma.favorite.findUnique({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
       },
     });
-    return favorite;
+
+    if (existingFavorite) {
+      // Si le produit est déjà dans les favoris, le retirer
+      await prisma.favorite.delete({
+        where: {
+          userId_productId: {
+            userId,
+            productId,
+          },
+        },
+      });
+      return { message: "Product removed from favorites" };
+    } else {
+      // Si le produit n'est pas dans les favoris, l'ajouter
+      const favorite = await prisma.favorite.create({
+        data: {
+          userId,
+          productId,
+        },
+      });
+      return favorite;
+    }
   } catch (error) {
-    console.error("Error adding to favorites:", error);
+    console.error("Error toggling favorite:", error);
     throw error;
+  } finally {
+    redirect("/dashboard/shop");
   }
 };
 
+export async function rateProduct(formData: FormData) {
+  const userId = formData.get("userId") as string;
+  const productId = formData.get("productId") as string;
+  const rating = Number(formData.get("rating") as unknown);
 
+  // Vérifiez si la note existe déjà
+  // Vérifiez si la note existe déjà
+  const existingRating = await prisma.rating.findUnique({
+    where: {
+      userId_productId: {
+        userId,
+        productId,
+      },
+    },
+  });
+
+  if (existingRating) {
+    // Mettre à jour la note existante
+    await prisma.rating.update({
+      where: {
+        id: existingRating.id,
+      },
+      data: {
+        rating,
+      },
+    });
+  } else {
+    // Créer une nouvelle note
+    await prisma.rating.create({
+      data: {
+        userId,
+        productId,
+        rating,
+      },
+      
+    });
+
+  }
+  redirect(`/dashboard/shop/${productId}`)
+
+}
+export const getProductRatings = async (productId: string) => {
+  const productRatings = await prisma.products.findUnique({
+    where: {
+      id: productId,
+    },
+    include: {
+      ratings: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+  return productRatings;
+};
+
+export async function getProductRating(productId: string) {
+  try {
+    const ratings = await prisma.rating.findMany({
+      where: {
+        productId: productId,
+      },
+      include: {
+        user: true, // Inclure les informations de l'utilisateur si nécessaire
+      },
+    });
+
+    return ratings;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des notations :", error);
+    throw error;
+  }
+}
+
+export async function getUserProductRating(userId: string, productId: string) {
+  try {
+    const rating = await prisma.rating.findUnique({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+    });
+
+    return rating;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la notation :", error);
+    throw error;
+  }
+}
 
 const ITEMS_PER_PAGE = 12;
 
-export async function fetchFilteredPages(query: string, currentPage: number, country: string, locality: string, period: string, stages: string) {
+export async function fetchFilteredPages(
+  query: string,
+  currentPage: number,
+  country: string,
+  locality: string,
+  period: string,
+  stages: string
+) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
-
 
   try {
     const products = await prisma.products.findMany({
@@ -65,13 +188,12 @@ export async function fetchFilteredPages(query: string, currentPage: number, cou
           { period: { contains: query, mode: "insensitive" } },
           { stages: { contains: query, mode: "insensitive" } },
         ],
-        AND : [
-          { country: {contains: country, mode: "insensitive"}},
-          { locality: {contains: locality, mode: "insensitive"}},
-          { period: {contains: period, mode: "insensitive"}},
-          { stages: {contains: stages, mode: "insensitive"}},
-
-        ]
+        AND: [
+          { country: { contains: country, mode: "insensitive" } },
+          { locality: { contains: locality, mode: "insensitive" } },
+          { period: { contains: period, mode: "insensitive" } },
+          { stages: { contains: stages, mode: "insensitive" } },
+        ],
       },
       orderBy: {
         createdAt: "desc",
@@ -87,7 +209,13 @@ export async function fetchFilteredPages(query: string, currentPage: number, cou
   }
 }
 
-export async function fetchInvoicesPages(query: string, country: string, locality: string, period: string, stages: string) {
+export async function fetchInvoicesPages(
+  query: string,
+  country: string,
+  locality: string,
+  period: string,
+  stages: string
+) {
   try {
     const count = await prisma.products.count({
       where: {
@@ -100,13 +228,12 @@ export async function fetchInvoicesPages(query: string, country: string, localit
           { period: { contains: query, mode: "insensitive" } },
           { stages: { contains: query, mode: "insensitive" } },
         ],
-        AND : [
-          { country: {contains: country, mode: "insensitive"}},
-          { locality: {contains: locality, mode: "insensitive"}},
-          { period: {contains: period, mode: "insensitive"}},
-          { stages: {contains: stages, mode: "insensitive"}},
-
-        ]
+        AND: [
+          { country: { contains: country, mode: "insensitive" } },
+          { locality: { contains: locality, mode: "insensitive" } },
+          { period: { contains: period, mode: "insensitive" } },
+          { stages: { contains: stages, mode: "insensitive" } },
+        ],
       },
     });
     const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
@@ -115,8 +242,6 @@ export async function fetchInvoicesPages(query: string, country: string, localit
     console.error("Error updating product:", error);
   }
 }
-
-
 
 export const createProduct = async (formData: FormData) => {
   const title = formData.get("title") as string;
@@ -248,4 +373,3 @@ export const restoreProductStock = async (productId: string, quantity: any) => {
     console.error("Error incrementing product stock:", error);
   }
 };
-

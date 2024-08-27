@@ -1,5 +1,5 @@
 import React from "react";
-import { getProduct } from "@/lib/actionsProducts";
+import { getProduct, getProductRatings } from "@/lib/actionsProducts";
 import { getUser } from "@/lib/actionsUsers";
 import SelectImage from "@/components/shop/SelectImage";
 
@@ -21,16 +21,18 @@ export default async function page({ params }: ProductPageProps) {
   const product = await getProduct(params.id);
   const user = await getUser()
 
+
   if (!product) return;
   if (!user) return
 
+  const ratings = await getProductRatings(params.id)
 
-
+if (!ratings) return
 
   return (
    <>
   
-          <SelectImage product={product} user={user}/>
+          <SelectImage product={product} user={user} ratings={ratings}/>
           </>
   );
 }

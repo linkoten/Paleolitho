@@ -114,7 +114,7 @@ model Products {
   period      String
   stages      String
   weight    String?
-  globalRating  Int?
+  globalRating  Int[]
   favorites   Favorite[] // Relation to Favorite
   ratings     Rating[]   // Relation to Rating
   CartItems   CartItem[]

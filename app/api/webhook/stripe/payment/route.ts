@@ -38,7 +38,7 @@ interface Product {
             product_data: {
               name: product.product.title,
               description: product.product.description,
-              images: [product.product.image],
+              images: [product.product.images[0]],
             },
             currency: 'EUR',
             unit_amount: amountInCents,
@@ -48,26 +48,62 @@ interface Product {
 
         const checkOutSession = await stripe.checkout.sessions.create(
             {
+                
                 payment_method_types: ['card'], // Méthodes de paiement acceptées
                 customer: customer.id,
                 mode: 'payment', // Mode de paiement unique
                 billing_address_collection: 'required',
+                shipping_address_collection: {
+                  allowed_countries: [ 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE'], // Liste des pays de l'Union Européenne
+                },
+                shipping_options: [
+                  
+                  {
+                    shipping_rate_data: {
+                      type: 'fixed_amount',
+                      fixed_amount: {
+                        amount: 1000, // 10€ en cents
+                        currency: 'eur',
+                      },
+                      display_name: 'Livraison en France',
+                      delivery_estimate: {
+                        minimum: {
+                          unit: 'business_day',
+                          value: 3,
+                        },
+                        maximum: {
+                          unit: 'business_day',
+                          value: 5,
+                        },
+                      },
+                    },
+                  },
+                  {
+                    shipping_rate_data: {
+                      type: 'fixed_amount',
+                      fixed_amount: {
+                        amount: 2000, // 20€ en cents
+                        currency: 'eur',
+                      },
+                      display_name: 'Livraison dans l\'Union Européenne',
+                      delivery_estimate: {
+                        minimum: {
+                          unit: 'business_day',
+                          value: 5,
+                        },
+                        maximum: {
+                          unit: 'business_day',
+                          value: 10,
+                        },
+                      },
+                    },
+                  },
+                ],
                 customer_update: {
                     address: 'auto',
                     name: 'auto',
                 },
-                payment_intent_data: {
-                    shipping: {
-                        name: 'required',
-                        address: {
-                            line1: 'required',
-                            line2: 'Adress Line 2',
-                            city: 'City',
-                            country: 'Country',
-                            postal_code: 'string',
-                        },
-                    },
-                },
+                
                 success_url:
                     'http://localhost:3000/dashboard/payment/success', // URL de succès
                 cancel_url:
@@ -94,3 +130,25 @@ interface Product {
         );
     }
 };
+
+
+/*
+
+shipping_address_collection:{
+                  allowed_countries: ['FR']
+                },
+                shipping_options: [
+                  {
+                    shipping_rate_data: {
+                      type: 'fixed_amount',
+                      fixed_amount: {
+                        amount: 100,
+                        currency: 'eur',
+                      },
+                      display_name: 'Zone France',
+
+                    }
+                  }
+                ],
+
+                */

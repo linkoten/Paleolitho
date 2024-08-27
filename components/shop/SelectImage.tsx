@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import Image from "next/image";
-import clsx from "clsx";
 import { addToCart } from "@/lib/actionsCart";
 import { Input } from "../ui/input";
 import ButtonToast from "../ButtonToast";
@@ -33,9 +31,20 @@ import {
   DialogClose,
   DialogTitle,
 } from "@/components/ui/dialog";
+import ProductRating from "./ProductRating";
 
-export default function SelectImage(product: any, user: any) {
-  const [activeImage, setActiveImage] = useState(product.product.images[0]);
+interface SelectImageProps {
+  product: any;
+  user: any;
+  ratings: any;
+}
+
+export default function SelectImage({
+  product,
+  user,
+  ratings,
+}: SelectImageProps) {
+  const [activeImage, setActiveImage] = useState(product.images[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(0);
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
@@ -69,121 +78,104 @@ export default function SelectImage(product: any, user: any) {
     [handleZoomChange]
   );
 
-  console.log(product);
-  console.log(user);
+  console.log(ratings);
   return (
     <section>
-      
-        
-        <Card className="w-full max-w-4xl">
-          <CardContent className="p-6">
+      <Card className="w-full max-w-4xl">
+        <CardContent className="p-6">
           <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbPage>Dashboard</BreadcrumbPage>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/shop">Shop</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{product.product.id}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-            <div className="flex flex-col  gap-6">
-              {/* Première colonne : Carousel et images secondaires */}
-              <div className="space-y-4 ">
-                <Carousel className="w-2/3 mx-auto pt-4">
-                  <CarouselContent>
-                    <CarouselItem>
-                      <div className="relative h-96 ">
-                        <Image
-                          src={activeImage}
-                          onClick={() => {
-                            setIsModalOpen(true);
-                          }}
-                          alt={product.product.title}
-                          className="rounded-lg w-auto h-full cursor-pointer object-cover"
-                          fill
-                        />
-                        <Badge className="absolute top-2 right-2 bg-blue-600">
-                          Nouveau
-                        </Badge>
-                      </div>
-                    </CarouselItem>
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-                <div className="flex flex-wrap space-x-2 overflow-x-auto p-2 justify-center">
-                  {product.product.images.map((img: string, index: any) => (
-                    <button
-                      key={index}
-                      className={`flex-shrink-0 w-20 h-20 relative rounded-md overflow-hidden ${
-                        activeImage === img ? "ring-2 ring-blue-500" : ""
-                      }`}
-                      onClick={() => setActiveImage(img)}
-                    >
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>Dashboard</BreadcrumbPage>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/shop">Shop</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{product.id}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div className="flex flex-col  gap-6">
+            {/* Première colonne : Carousel et images secondaires */}
+            <div className="space-y-4 ">
+              <Carousel className="w-2/3 mx-auto pt-4">
+                <CarouselContent>
+                  <CarouselItem>
+                    <div className="relative h-96 ">
                       <Image
-                        src={img}
-                        alt={`${product.product.title} - vue ${index + 1}`}
-                        layout="fill"
-                        objectFit="cover"
+                        src={activeImage}
+                        onClick={() => {
+                          setIsModalOpen(true);
+                        }}
+                        alt={product.title}
+                        className="rounded-lg w-auto h-full cursor-pointer object-cover"
+                        fill
                       />
-                    </button>
-                  ))}
-                </div>
+                      <Badge className="absolute top-2 right-2 bg-blue-600">
+                        Nouveau
+                      </Badge>
+                    </div>
+                  </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+              <div className="flex flex-wrap space-x-2 overflow-x-auto p-2 justify-center">
+                {product.images.map((img: string, index: any) => (
+                  <button
+                    key={index}
+                    className={`flex-shrink-0 w-20 h-20 relative rounded-md overflow-hidden ${
+                      activeImage === img ? "ring-2 ring-blue-500" : ""
+                    }`}
+                    onClick={() => setActiveImage(img)}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product.title} - vue ${index + 1}`}
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </button>
+                ))}
               </div>
+            </div>
 
-              {/* Deuxième colonne : Informations */}
-              <div className="space-y-4 ">
-                <div>
-                  <h2 className="text-2xl font-bold">
-                    {product.product.title}
-                  </h2>
-                </div>
-                <p className="text-lg text-gray-600 ">
-                  {product.product.description}
-                </p>
-                <div className="flex items-center">
-                  <div className="flex items-center">
-                    <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    <span className="ml-1 text-sm font-medium">
-                      product rating
-                    </span>
-                  </div>
-                  <span className="ml-1 text-xs text-muted-foreground">
-                    (product reviews avis)
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <Badge>{product.product.country}</Badge>
-                  <Badge>{product.product.stages}</Badge>
-                </div>
+            {/* Deuxième colonne : Informations */}
+            <div className="space-y-4 ">
+              <div>
+                <h2 className="text-2xl font-bold">{product.title}</h2>
               </div>
+              <p className="text-lg text-gray-600 ">{product.description}</p>
 
-              {/* Troisième colonne : Prix, stock et bouton */}
-              <div className="space-y-4 flex flex-col justify-between ">
-                
-                {product.product.stock > 0 && <div className="flex mb-2"></div>}
-                {product.product.stock > 0 ? (
-                  <form action={addToCart}>
-                    <Input
-                      type="text"
-                      name="userId"
-                      defaultValue={product.user.id}
-                      className="  hidden"
-                    />{" "}
-                    <Input
-                      type="text"
-                      name="productId"
-                      defaultValue={product.product.id}
-                      className="  hidden"
-                    />{" "}
-                    <label htmlFor="quantity">Quantity:</label>
-                    <div className="flex gap-2">
+              <ProductRating productId={product.id} userId={user.id} ratings={ratings}/>
+              <div className="flex flex-wrap gap-2 justify-center">
+                <Badge>{product.country}</Badge>
+                <Badge>{product.stages}</Badge>
+              </div>
+            </div>
+
+            {/* Troisième colonne : Prix, stock et bouton */}
+            <div className="space-y-4 flex flex-col justify-between ">
+              {product.stock > 0 && <div className="flex mb-2"></div>}
+              {product.stock > 0 ? (
+                <form action={addToCart}>
+                  <Input
+                    type="text"
+                    name="userId"
+                    defaultValue={user.id}
+                    className="  hidden"
+                  />{" "}
+                  <Input
+                    type="text"
+                    name="productId"
+                    defaultValue={product.id}
+                    className="  hidden"
+                  />{" "}
+                  <label htmlFor="quantity">Quantity:</label>
+                  <div className="flex gap-2">
                     <Input
                       type="number"
                       name="quantity"
@@ -197,81 +189,65 @@ export default function SelectImage(product: any, user: any) {
                     >
                       <ShoppingCart className="mr-2 h-5 w-5" /> Ajouter au
                       panier
-                      
                     </ButtonToast>
-                    </div>
-                  </form>
-                ) : (
-                  <Button className=" bg-red-500 hover:bg-red-600 line-through cursor-not-allowed ">
-                    <ShoppingCart className="mr-2 h-5 w-5" /> Ajouter au panier
-                  </Button>
-                )}
-              </div>
+                  </div>
+                </form>
+              ) : (
+                <Button className=" bg-red-500 hover:bg-red-600 line-through cursor-not-allowed ">
+                  <ShoppingCart className="mr-2 h-5 w-5" /> Ajouter au panier
+                </Button>
+              )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </Card>
 
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent className="max-w-3xl" title={product.product.title}>
-            <DialogTitle></DialogTitle>
-            <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Fermer</span>
-            </DialogClose>
-            <div className="absolute left-4 top-4 z-10 flex gap-2">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => handleZoomChange(1)}
-                disabled={zoomLevel === zoomLevels.length - 1}
-              >
-                <ZoomIn className="h-4 w-4" />
-                <span className="sr-only">Zoomer</span>
-              </Button>
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => handleZoomChange(-1)}
-                disabled={zoomLevel === 0}
-              >
-                <ZoomOut className="h-4 w-4" />
-                <span className="sr-only">Dézoomer</span>
-              </Button>
-            </div>
-            <div
-              className="relative h-[80vh] overflow-hidden "
-              ref={imageRef}
-              onMouseMove={handleZoom}
-              onWheel={handleWheel}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-3xl" title={product.title}>
+          <DialogTitle></DialogTitle>
+          <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+            <X className="h-4 w-4" />
+            <span className="sr-only">Fermer</span>
+          </DialogClose>
+          <div className="absolute left-4 top-4 z-10 flex gap-2">
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => handleZoomChange(1)}
+              disabled={zoomLevel === zoomLevels.length - 1}
             >
-              <Image
-                src={activeImage}
-                alt={`${product.product.title} - vue ${activeImage + 1}`}
-                layout="fill"
-                objectFit="contain"
-                style={{
-                  transform: `scale(${zoomLevels[zoomLevel]})`,
-                  transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
-                }}
-              />
-            </div>
-          </DialogContent>
-        </Dialog>
+              <ZoomIn className="h-4 w-4" />
+              <span className="sr-only">Zoomer</span>
+            </Button>
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => handleZoomChange(-1)}
+              disabled={zoomLevel === 0}
+            >
+              <ZoomOut className="h-4 w-4" />
+              <span className="sr-only">Dézoomer</span>
+            </Button>
+          </div>
+          <div
+            className="relative h-[80vh] overflow-hidden "
+            ref={imageRef}
+            onMouseMove={handleZoom}
+            onWheel={handleWheel}
+          >
+            <Image
+              src={activeImage}
+              alt={`${product.title} - vue ${activeImage + 1}`}
+              layout="fill"
+              objectFit="contain"
+              style={{
+                transform: `scale(${zoomLevels[zoomLevel]})`,
+                transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+              }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
-
-/* <div className="flex flex-wrap gap-2 ">
-            {product.images.map(( image: any) => (
-
-            
-            <img
-              key={image}
-              src={image}
-              alt={image}
-              className="w-24 h-24 rounded-lg cursor-pointer"
-            />
-          ))}
-          </div>
-
-          */

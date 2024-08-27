@@ -36,9 +36,7 @@ export default async function Card({ item, user }: CardProps) {
 
   const toastText = "Le produit a été ajouté au panier";
 
-  console.log("je suis l'item", favorite?.favorites[0].product.id);
 
-  console.log(item.id);
 
   const isFavorite = favorite?.favorites.some(
     (favorite) => favorite.product.id === item.id

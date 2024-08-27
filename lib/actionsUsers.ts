@@ -17,6 +17,8 @@ export const getUser = async () => {
   const id = session.user.id as string;
   const user = await prisma.user.findUnique({
     where: { id },
+    include: { cart: true }, // Inclure la relation cart
+
   });
 
   // Check if user email matches and role is USER
@@ -29,6 +31,19 @@ export const getUser = async () => {
       console.log("User role updated to ADMIN");
     } catch (error) {
       console.error("Error updating user role:", error);
+    }
+  }
+
+  if (user && !user.cart) {
+    try {
+      await prisma.cart.create({
+        data: {
+          userId: user.id,
+        },
+      });
+      console.log("Empty cart created for the user");
+    } catch (error) {
+      console.error("Error creating cart:", error);
     }
   }
 

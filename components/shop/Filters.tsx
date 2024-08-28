@@ -10,18 +10,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "../ui/label";
+import { useState } from "react";
 
 export default function Filters(items: any) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const [selectedFilters, setSelectedFilters] = useState({
+    country: '',
+    locality: '',
+    period: '',
+    stages: ''
+  });
 
   const handleSelect = useDebouncedCallback((key, value) => {
     console.log(`Filtering... ${key}: ${value}`);
 
+    const newFilters = { ...selectedFilters, [key]: value === "all" ? '' : value };
+    setSelectedFilters(newFilters);
+
+    if (value === "all") {
+      value = ""; // Clear the filter
+    }
+
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
-    if (value) {
+    if (value && value !== "all") {
       params.set(key, value);
     } else {
       params.delete(key);
@@ -29,100 +43,111 @@ export default function Filters(items: any) {
     replace(`${pathname}?${params.toString()}`);
   }, 300);
 
+  const filterItems = (items: any, filters: any) => {
+    return items.filter((item: any) => {
+      return Object.keys(filters).every(key => 
+        !filters[key] || item[key] === filters[key]
+      );
+    });
+  };
+
+  const filteredItems = filterItems(items.items, selectedFilters);
+
+
   const uniqueCountries = Array.from(
-    new Set(items.items.map((item: any) => item.country))
-  );
+    new Set(filteredItems.map((item: any) => item.country))
+  ).sort((a: any, b) => a.localeCompare(b));
+
   const uniqueLocality = Array.from(
-    new Set(items.items.map((item: any) => item.locality))
-  );
+    new Set(filteredItems.map((item: any) => item.locality))
+  ).sort((a: any, b) => a.localeCompare(b));
+
   const uniquePeriod = Array.from(
-    new Set(items.items.map((item: any) => item.period))
-  );
+    new Set(filteredItems.map((item: any) => item.period))
+  ).sort((a: any, b) => a.localeCompare(b));
+
   const uniqueStages = Array.from(
-    new Set(items.items.map((item: any) => item.stages))
-  );
+    new Set(filteredItems.map((item: any) => item.stages))
+  ).sort((a: any, b) => a.localeCompare(b));
+
+  const getCount = (key: any, value: any) => {
+    return filterItems(items.items, { ...selectedFilters, [key]: value }).length;
+  }
+
 
   return (
     <div className="relative flex flex-1 flex-shrink-0 w-full space-x-2 justify-around pt-4">
-        <div>
-      <Label  className="sr-only">
-        Country
-      </Label>
-      <Select
-        onValueChange={(value: string) => handleSelect("country", value)}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Country" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Country"> Country</SelectItem>
-          {uniqueCountries.map((country: any) => (
-            <SelectItem key={country} value={country}>
-              {country}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div>
+        <Label className="sr-only">Pays</Label>
+        <Select
+          onValueChange={(value: string) => handleSelect("country", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Pays" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tous</SelectItem>
+            {uniqueCountries.map((country: any) => (
+              <SelectItem key={country} value={country}>
+                {country} ({getCount("country", country)})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div>
-      <Label  className="sr-only">
-        Locality
-      </Label>
-      <Select
-        onValueChange={(value: string) => handleSelect("locality", value)}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Locality" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Locality"> Locality</SelectItem>
-          {uniqueLocality.map((locality: any) => (
-            <SelectItem key={locality} value={locality}>
-              {locality}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <Label className="sr-only">Localité</Label>
+        <Select
+          onValueChange={(value: string) => handleSelect("locality", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Provenances" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Toutes</SelectItem>
+            {uniqueLocality.map((locality: any) => (
+              <SelectItem key={locality} value={locality}>
+                {locality} ({getCount("locality", locality)})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div>
-      <Label  className="sr-only">
-        Period
-      </Label>
-      <Select
-        onValueChange={(value: string) => handleSelect("period", value)}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Period" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Period"> Period</SelectItem>
-          {uniquePeriod.map((period: any) => (
-            <SelectItem key={period} value={period}>
-              {period}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <Label className="sr-only">Eres Géologique</Label>
+        <Select
+          onValueChange={(value: string) => handleSelect("period", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Eres Géologique" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Toutes</SelectItem>
+            {uniquePeriod.map((period: any) => (
+              <SelectItem key={period} value={period}>
+                {period} ({getCount("period", period)})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div>
-      <Label  className="sr-only">
-        Stages
-      </Label>
-      <Select
-        onValueChange={(value: string) => handleSelect("stages", value)}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Stages" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Stages"> Stages</SelectItem>
-          {uniqueStages.map((stages: any) => (
-            <SelectItem key={stages} value={stages}>
-              {stages}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <Label className="sr-only">Epoque/Etages</Label>
+        <Select
+          onValueChange={(value: string) => handleSelect("stages", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Epoques/Etages" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Toutes</SelectItem>
+            {uniqueStages.map((stages: any) => (
+              <SelectItem key={stages} value={stages}>
+                {stages} ({getCount("stages", stages)})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );

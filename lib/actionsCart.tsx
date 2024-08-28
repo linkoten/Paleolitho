@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createEmptyCart(userId: string) {
@@ -30,7 +31,7 @@ export async function deleteFromCard(formData: FormData) {
     console.error("Error fetching cart:", error);
     throw new Error("Could not fetch cart");
   } finally {
-    redirect("/dashboard/shop");
+    revalidatePath("/");
   }
 }
 
@@ -136,10 +137,8 @@ export async function deleteProductFromCart({
   }
 }
 
-interface AddToCartProps {
-  productId: string;
-  quantity: number;
-}
+
+
 
 export async function addToCart(formData: FormData) {
   const userId = formData.get("userId") as string;
@@ -186,6 +185,7 @@ export async function addToCart(formData: FormData) {
   } catch (error) {
     throw new Error("Failed to update cart");
   } finally {
-    redirect("/dashboard/shop");
+    revalidatePath("/")
+    
   }
 }

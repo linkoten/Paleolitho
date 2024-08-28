@@ -84,14 +84,88 @@ export default async function CreatePage({ params }: UpdatePageProps) {
             />
           </div>
           <div className="gap-y-2 flex flex-col">
-            <Label htmlFor="image">image</Label>
-            <Input
-              defaultValue={product?.images as string[]}
-              placeholder="Image de votre produit"
-              type="text"
-              name="image"
-              id="image"
-            />
+          <Label htmlFor="images">Images</Label>
+              <Input
+                placeholder="Lien de l'image 1"
+                required
+                type="text"
+                name="images"
+                id="image1"
+                defaultValue={product?.images[0] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 2"
+                type="text"
+                name="images"
+                id="image2"
+                defaultValue={product?.images[1] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 3"
+                type="text"
+                name="images"
+                id="image3"
+                defaultValue={product?.images[2] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 4"
+                type="text"
+                name="images"
+                id="image4"
+                defaultValue={product?.images[3] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 5"
+                type="text"
+                name="images"
+                id="image5"
+                defaultValue={product?.images[4] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 6"
+                type="text"
+                name="images"
+                id="image6"
+                defaultValue={product?.images[5] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 7"
+                type="text"
+                name="images"
+                id="image7"
+                defaultValue={product?.images[6] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 8"
+                type="text"
+                name="images"
+                id="image8"                
+                defaultValue={product?.images[7] as string}
+
+              />
+              <Input
+                placeholder="Lien de l'image 9"
+                type="text"
+                name="images"
+                id="image9"
+                defaultValue={product?.images[8] as string}
+
+              />
+               <Input
+                placeholder="Lien de l'image 10"
+                type="text"
+                name="images"
+                id="image10"
+                defaultValue={product?.images[9] as string}
+
+              />
           </div>
         </CardContent>
         <CardFooter className="flex items-center justify-between">

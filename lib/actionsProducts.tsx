@@ -62,12 +62,14 @@ export const toggleFavorite = async (formData: FormData) => {
         },
       });
       return favorite;
+
     }
+    
   } catch (error) {
     console.error("Error toggling favorite:", error);
     throw error;
   } finally {
-    redirect("/dashboard/shop");
+    revalidatePath("/")
   }
 };
 
@@ -209,7 +211,7 @@ export async function fetchFilteredPages(
   }
 }
 
-export async function fetchInvoicesPages(
+export async function fetchProductsPages(
   query: string,
   country: string,
   locality: string,

@@ -1,6 +1,6 @@
 import {
   fetchFilteredPages,
-  fetchInvoicesPages,
+  fetchProductsPages,
   getAllProducts,
 } from "@/lib/actionsProducts";
 import ListCards from "@/components/shop/ProductsList";
@@ -16,7 +16,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
+import { revalidatePath } from "next/cache";
 
 export default async function Home({
   searchParams,
@@ -40,7 +41,7 @@ export default async function Home({
   const period = searchParams?.period || "";
   const stages = searchParams?.stages || "";
 
-  const totalPages = await fetchInvoicesPages(
+  const totalPages = await fetchProductsPages(
     query,
     country,
     locality,
@@ -57,8 +58,6 @@ export default async function Home({
     stages
   );
 
-  console.log("Hola", country, locality, period, stages);
-  console.log("Yo", query, currentPage);
   const items = await getAllProducts();
   if (!user) {
     // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
@@ -68,33 +67,30 @@ export default async function Home({
   if (!totalPages) {
     return (
       <>
-     
-      
-      <div className=" text-center text-xl pt-20">
-        {" "}
-        Il n&apos;y a aucun produits qui correspondent à vos critères !
-      </div>
-      <Button> Rétablir les filtres</Button>
+        <div className=" text-center text-xl pt-20">
+          {" "}
+          Il n&apos;y a aucun produits qui correspondent à vos critères !
+        </div>
       </>
     );
   }
 
   return (
-<>
-<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbPage >Dashboard</BreadcrumbPage>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-  
-    <BreadcrumbItem>
-      <BreadcrumbPage>Shop</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>
+    <>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage>Dashboard</BreadcrumbPage>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
 
-      <Search placeholder="Search invoices..."  />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Shop</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <Search placeholder="Search invoices..." />
 
       <Filters items={items} />
       <div>
@@ -104,6 +100,6 @@ export default async function Home({
       <div className="mt-5 pb-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-      </>
+    </>
   );
 }

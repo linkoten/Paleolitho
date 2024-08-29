@@ -17,16 +17,21 @@ export default function Filters(items: any) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const [selectedFilters, setSelectedFilters] = useState({
-    country: '',
-    locality: '',
-    period: '',
-    stages: ''
+    country: "",
+    locality: "",
+    period: "",
+    stages: "",
+    params: "",
+    category: "",
   });
 
   const handleSelect = useDebouncedCallback((key, value) => {
     console.log(`Filtering... ${key}: ${value}`);
 
-    const newFilters = { ...selectedFilters, [key]: value === "all" ? '' : value };
+    const newFilters = {
+      ...selectedFilters,
+      [key]: value === "all" ? "" : value,
+    };
     setSelectedFilters(newFilters);
 
     if (value === "all") {
@@ -45,14 +50,17 @@ export default function Filters(items: any) {
 
   const filterItems = (items: any, filters: any) => {
     return items.filter((item: any) => {
-      return Object.keys(filters).every(key => 
-        !filters[key] || item[key] === filters[key]
+      return Object.keys(filters).every(
+        (key) => !filters[key] || item[key] === filters[key]
       );
     });
   };
 
   const filteredItems = filterItems(items.items, selectedFilters);
 
+  const uniqueCategories = Array.from(
+    new Set(filteredItems.map((item: any) => item.category))
+  ).sort((a: any, b) => a.localeCompare(b));
 
   const uniqueCountries = Array.from(
     new Set(filteredItems.map((item: any) => item.country))
@@ -71,12 +79,30 @@ export default function Filters(items: any) {
   ).sort((a: any, b) => a.localeCompare(b));
 
   const getCount = (key: any, value: any) => {
-    return filterItems(items.items, { ...selectedFilters, [key]: value }).length;
-  }
-
+    return filterItems(items.items, { ...selectedFilters, [key]: value })
+      .length;
+  };
 
   return (
     <div className="relative flex flex-1 flex-shrink-0 w-full space-x-2 justify-around pt-4">
+      <div>
+        <Label className="sr-only">Catégories</Label>
+        <Select
+          onValueChange={(value: string) => handleSelect("category", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Catégories" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Toutes</SelectItem>
+            {uniqueCategories.map((category: any) => (
+              <SelectItem key={category} value={category}>
+                {category} ({getCount("category", category)})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div>
         <Label className="sr-only">Pays</Label>
         <Select

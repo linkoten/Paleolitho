@@ -16,9 +16,10 @@ interface Product {
   
   export const POST = async (request: NextRequest) => {
     try {
-      const products: any = await request.json();
-      console.log("Received products:", products);
-  
+      const { cartItems, country } = await request.json();      
+      console.log("Received products:", cartItems);
+      console.log("Received country:", country);
+
       const user = await getUser();
       if (!user?.email) {
         throw new Error('User not authenticated');
@@ -27,7 +28,7 @@ interface Product {
       const customer = await stripe.customers.create({ email: user.email });
       console.log('Customer created:', customer);
   
-      const lineItems = products.map((product: any) => {
+      const lineItems = cartItems.map((product: any) => {
         const amountInCents = Math.round(product.product.price * 100);
         if (amountInCents < 50) {
           throw new Error(`The price of ${product.title} is too low, must be at least 0.50 in your currency.`);
@@ -45,8 +46,10 @@ interface Product {
           },
         };
       });
+      let checkOutSession
+      if (country === 'FR') {
 
-        const checkOutSession = await stripe.checkout.sessions.create(
+         checkOutSession = await stripe.checkout.sessions.create(
             {
                 
                 payment_method_types: ['card'], // Méthodes de paiement acceptées
@@ -54,7 +57,7 @@ interface Product {
                 mode: 'payment', // Mode de paiement unique
                 billing_address_collection: 'required',
                 shipping_address_collection: {
-                  allowed_countries: [ 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE'], // Liste des pays de l'Union Européenne
+                  allowed_countries: ['FR'], // Liste des pays de l'Union Européenne
                 },
                 shipping_options: [
                   
@@ -66,38 +69,10 @@ interface Product {
                         currency: 'eur',
                       },
                       display_name: 'Livraison en France',
-                      delivery_estimate: {
-                        minimum: {
-                          unit: 'business_day',
-                          value: 3,
-                        },
-                        maximum: {
-                          unit: 'business_day',
-                          value: 5,
-                        },
-                      },
+                      
                     },
                   },
-                  {
-                    shipping_rate_data: {
-                      type: 'fixed_amount',
-                      fixed_amount: {
-                        amount: 2000, // 20€ en cents
-                        currency: 'eur',
-                      },
-                      display_name: 'Livraison dans l\'Union Européenne',
-                      delivery_estimate: {
-                        minimum: {
-                          unit: 'business_day',
-                          value: 5,
-                        },
-                        maximum: {
-                          unit: 'business_day',
-                          value: 10,
-                        },
-                      },
-                    },
-                  },
+                  
                 ],
                 customer_update: {
                     address: 'auto',
@@ -111,6 +86,45 @@ interface Product {
                     line_items: lineItems,
 
                     });
+                  } else {
+                     checkOutSession = await stripe.checkout.sessions.create(
+                      {
+                          
+                          payment_method_types: ['card'], // Méthodes de paiement acceptées
+                          customer: customer.id,
+                          mode: 'payment', // Mode de paiement unique
+                          billing_address_collection: 'required',
+                          shipping_address_collection: {
+                            allowed_countries: [ 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI','DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE'], // Liste des pays de l'Union Européenne
+                          },
+                          shipping_options: [
+                            
+                            
+                            {
+                              shipping_rate_data: {
+                                type: 'fixed_amount',
+                                fixed_amount: {
+                                  amount: 2000, // 20€ en cents
+                                  currency: 'eur',
+                                },
+                                display_name: 'Livraison dans l\'Union Européenne',
+                                
+                              },
+                            },
+                          ],
+                          customer_update: {
+                              address: 'auto',
+                              name: 'auto',
+                          },
+                          
+                          success_url:
+                              'http://localhost:3000/dashboard/payment/success', // URL de succès
+                          cancel_url:
+                              'http://localhost:3000/dashboard/payment/cancel', // URL d'annulation
+                              line_items: lineItems,
+          
+                              });
+                  }
 
         console.log('Checkout session created:', checkOutSession.url);
 

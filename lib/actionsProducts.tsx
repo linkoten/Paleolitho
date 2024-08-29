@@ -174,7 +174,9 @@ export async function fetchFilteredPages(
   country: string,
   locality: string,
   period: string,
-  stages: string
+  stages: string,
+  category: string,
+
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
@@ -191,6 +193,7 @@ export async function fetchFilteredPages(
           { stages: { contains: query, mode: "insensitive" } },
         ],
         AND: [
+          { category: { contains: category, mode: "insensitive" } },
           { country: { contains: country, mode: "insensitive" } },
           { locality: { contains: locality, mode: "insensitive" } },
           { period: { contains: period, mode: "insensitive" } },
@@ -216,7 +219,8 @@ export async function fetchProductsPages(
   country: string,
   locality: string,
   period: string,
-  stages: string
+  stages: string,
+  category: string
 ) {
   try {
     const count = await prisma.products.count({
@@ -231,6 +235,7 @@ export async function fetchProductsPages(
           { stages: { contains: query, mode: "insensitive" } },
         ],
         AND: [
+          { category: { contains: category, mode: "insensitive" } },
           { country: { contains: country, mode: "insensitive" } },
           { locality: { contains: locality, mode: "insensitive" } },
           { period: { contains: period, mode: "insensitive" } },

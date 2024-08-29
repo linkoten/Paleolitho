@@ -29,6 +29,7 @@ export default async function Home({
     locality?: string;
     period?: string;
     stages?: string;
+    category?: string;
   };
 }) {
   const user = await getUser();
@@ -40,13 +41,15 @@ export default async function Home({
   const locality = searchParams?.locality || "";
   const period = searchParams?.period || "";
   const stages = searchParams?.stages || "";
+  const category = searchParams?.category || "";
 
   const totalPages = await fetchProductsPages(
     query,
     country,
     locality,
     period,
-    stages
+    stages,
+    category
   );
 
   const products = await fetchFilteredPages(
@@ -55,7 +58,8 @@ export default async function Home({
     country,
     locality,
     period,
-    stages
+    stages,
+    category
   );
 
   const items = await getAllProducts();

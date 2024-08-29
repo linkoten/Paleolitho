@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { getAllProducts } from "@/lib/actionsProducts";
 import { useState } from "react";
 import axios from "axios";
-import { User } from "@prisma/client";
 import { Button } from "@/components/ui/button";
+import CountryModal from "@/components/CountryModal"; // Assurez-vous que le chemin est correct
 
 
 
@@ -14,6 +13,8 @@ import { Button } from "@/components/ui/button";
 export default function Checkout(user: any) {
   const [loading, setLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("");
 
   useEffect(() => {
     const checkStockAvailability = () => {
@@ -25,18 +26,26 @@ export default function Checkout(user: any) {
     checkStockAvailability();
   }, [user]);
 
-  console.log(user);
 
-  const checkout = async () => {
+  const handleCheckoutClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCountrySelect = (country: any) => {
+    setSelectedCountry(country);
+    checkout(country);
+  };
+
+  const checkout = async (selectedCountry: any) => {
     setLoading(true);
     try {
       const cartItems = user.user.cart.cartItems;
-      console.log("Cart items:", cartItems);
+      console.log("Cart items:", cartItems, selectedCountry);
 
       // Send all cart items in one request
       const response = await axios.post(
         "/api/webhook/stripe/payment",
-        cartItems
+        {cartItems, country: selectedCountry}
       );
       const responseData = await response.data;
       console.log("Response data:", responseData);
@@ -50,7 +59,7 @@ export default function Checkout(user: any) {
   return (
     <div className="mt-6">
       <Button
-        onClick={checkout}
+        onClick={handleCheckoutClick}
         className=" w-full "
         disabled={isButtonDisabled || loading}
       >
@@ -61,6 +70,11 @@ export default function Checkout(user: any) {
           Certains articles de votre panier ont une quantité supérieure au stock disponible.
         </p>
       )}
+       <CountryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelectCountry={handleCountrySelect}
+      />
     </div>
   );
 }

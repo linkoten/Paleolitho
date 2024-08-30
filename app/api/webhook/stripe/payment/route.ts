@@ -69,7 +69,6 @@ export const POST = async (request: NextRequest) => {
       "TR",
       "UA",
     ];
-    const zoneC = [];
     const zoneOutremer1 = ["GP", "MQ", "RE", "GF", "YT", "PM", "MF", "BL"];
     const zoneOutremer2 = ["NC", "PF", "WF", "TF"];
 
@@ -77,35 +76,7 @@ export const POST = async (request: NextRequest) => {
     cartItems.forEach((item: any) => {
       totalWeight += item.product.weight * item.quantity;
     });
-    let shipping_options = null;
-    if (country === "FR" && totalWeight <= 5000) {
-      shipping_options = [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: {
-              amount: 1000, // 10€ en cents
-              currency: "eur",
-            },
-            display_name: "Livraison en France",
-          },
-        },
-      ];
-    } else {
-      shipping_options = [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: {
-              amount: 1000, // 10€ en cents
-              currency: "eur",
-            },
-            display_name: "Livraison en France",
-          },
-        },
-      ];
-    }
-
+  
     const user = await getUser();
     if (!user?.email) {
       throw new Error("User not authenticated");
@@ -161,8 +132,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (country === "FR" && totalWeight <= 1000) {
@@ -191,8 +162,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (country === "FR" && totalWeight <= 2000) {
@@ -221,8 +192,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (country === "FR" && totalWeight <= 5000) {
@@ -251,8 +222,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (country === "FR" && totalWeight <= 10000) {
@@ -281,8 +252,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (country === "FR" && totalWeight <= 15000) {
@@ -311,8 +282,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (country === "FR" && totalWeight <= 30000) {
@@ -341,8 +312,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneA.includes(country) && totalWeight <= 500) {
@@ -373,8 +344,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneA.includes(country) && totalWeight <= 1000) {
@@ -405,8 +376,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneA.includes(country) && totalWeight <= 2000) {
@@ -437,8 +408,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneA.includes(country) && totalWeight <= 5000) {
@@ -469,8 +440,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneA.includes(country) && totalWeight <= 10000) {
@@ -501,8 +472,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneA.includes(country) && totalWeight <= 15000) {
@@ -533,8 +504,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneA.includes(country) && totalWeight <= 30000) {
@@ -565,8 +536,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneB.includes(country) && totalWeight <= 500) {
@@ -596,8 +567,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneB.includes(country) && totalWeight <= 1000) {
@@ -627,8 +598,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneB.includes(country) && totalWeight <= 2000) {
@@ -658,8 +629,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneB.includes(country) && totalWeight <= 5000) {
@@ -689,8 +660,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneB.includes(country) && totalWeight <= 10000) {
@@ -720,8 +691,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneB.includes(country) && totalWeight <= 15000) {
@@ -751,8 +722,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneB.includes(country) && totalWeight <= 20000) {
@@ -782,8 +753,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer1.includes(country) && totalWeight <= 500) {
@@ -813,8 +784,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer1.includes(country) && totalWeight <= 1000) {
@@ -844,8 +815,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer1.includes(country) && totalWeight <= 2000) {
@@ -875,8 +846,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer1.includes(country) && totalWeight <= 5000) {
@@ -906,8 +877,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer1.includes(country) && totalWeight <= 10000) {
@@ -937,8 +908,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer1.includes(country) && totalWeight <= 15000) {
@@ -968,8 +939,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer1.includes(country) && totalWeight <= 30000) {
@@ -999,8 +970,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer2.includes(country) && totalWeight <= 500) {
@@ -1030,8 +1001,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer2.includes(country) && totalWeight <= 1000) {
@@ -1061,8 +1032,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer2.includes(country) && totalWeight <= 2000) {
@@ -1092,8 +1063,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer2.includes(country) && totalWeight <= 5000) {
@@ -1123,8 +1094,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer2.includes(country) && totalWeight <= 10000) {
@@ -1154,8 +1125,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer2.includes(country) && totalWeight <= 15000) {
@@ -1185,8 +1156,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else if (zoneOutremer2.includes(country) && totalWeight <= 30000) {
@@ -1216,8 +1187,8 @@ export const POST = async (request: NextRequest) => {
           name: "auto",
         },
 
-        success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-        cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+        success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+        cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
         line_items: lineItems,
       });
     } else {
@@ -1248,8 +1219,8 @@ export const POST = async (request: NextRequest) => {
             name: "auto",
           },
 
-          success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-          cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+          success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+          cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
       } else if (totalWeight <= 1000) {
@@ -1279,8 +1250,8 @@ export const POST = async (request: NextRequest) => {
             name: "auto",
           },
 
-          success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-          cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+          success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+          cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
       } else if (totalWeight <= 2000) {
@@ -1310,8 +1281,8 @@ export const POST = async (request: NextRequest) => {
             name: "auto",
           },
 
-          success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-          cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+          success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+          cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
       } else if (totalWeight <= 5000) {
@@ -1341,8 +1312,8 @@ export const POST = async (request: NextRequest) => {
             name: "auto",
           },
 
-          success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-          cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+          success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+          cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
       } else if (totalWeight <= 10000) {
@@ -1372,8 +1343,8 @@ export const POST = async (request: NextRequest) => {
             name: "auto",
           },
 
-          success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-          cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+          success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+          cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
       } else if (totalWeight <= 15000) {
@@ -1403,8 +1374,8 @@ export const POST = async (request: NextRequest) => {
             name: "auto",
           },
 
-          success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-          cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+          success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+          cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
       }  else {
@@ -1434,8 +1405,8 @@ export const POST = async (request: NextRequest) => {
             name: "auto",
           },
 
-          success_url: "http://localhost:3000/dashboard/payment/success", // URL de succès
-          cancel_url: "http://localhost:3000/dashboard/payment/cancel", // URL d'annulation
+          success_url: `${process.env.DOMAIN_URL}/dashboard/payment/success`, // URL de succès
+          cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
       }

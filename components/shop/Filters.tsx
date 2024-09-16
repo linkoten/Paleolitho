@@ -84,9 +84,10 @@ export default function Filters(items: any) {
   };
 
   return (
-    <div className="relative flex flex-1 flex-shrink-0 w-full space-x-2 justify-around pt-4">
+    <div className="relative flex flex-1 flex-wrap flex-shrink-0 w-full gap-4 justify-around py-4 px-4">
       <div>
         <Label className="sr-only">Catégories</Label>
+        
         <Select
           onValueChange={(value: string) => handleSelect("category", value)}
         >

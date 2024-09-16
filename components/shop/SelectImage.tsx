@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { ShoppingCart, Star, X, ZoomIn, ZoomOut } from "lucide-react";
+import { ShoppingCart,  X, ZoomIn, ZoomOut } from "lucide-react";
 import {
   Carousel,
   CarouselContent,

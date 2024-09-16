@@ -1,6 +1,6 @@
 "use client";
 
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { rateProduct } from "@/lib/actionsProducts";
 import { Input } from "../ui/input";
@@ -8,7 +8,7 @@ import { Input } from "../ui/input";
 const ProductRating = ({ userId, productId, ratings }: any) => {
   const [rating, setRating] = useState(0);
   const [userRating, setUserRating] = useState<number | null>(null);
-
+  const [hoveredStar, setHoveredStar] = useState<number | null>(null);
 
   useEffect(() => {
     // Vérifier si l'utilisateur a déjà noté le produit
@@ -39,36 +39,35 @@ const ProductRating = ({ userId, productId, ratings }: any) => {
   const sumRatings = ratings.ratings.reduce((sum: any, rating: any) => sum + rating.rating, 0);
   const averageRating = sumRatings / totalRatings;
 
- console.log(ratings)
-
- console.log(userId)
-
-
   return (
     <form action={rateProduct}>
       <Input
         type="text"
         name="userId"
         defaultValue={userId}
-        className="  hidden"
-      />{" "}
+        className="hidden"
+      />
       <Input
         type="text"
         name="productId"
         defaultValue={productId}
-        className="  hidden"
-      />{" "}
-       <div className="flex items-center">
+        className="hidden"
+      />
+      <div className="flex items-center">
         {[1, 2, 3, 4, 5].map((star) => {
-          const fillClass = userRating !== null
-            ? (userRating >= star ? "text-yellow-400" : "text-gray-400")
-            : (averageRating >= star ? "text-yellow-400" : "text-gray-400");
+          const fillClass = hoveredStar !== null
+            ? (hoveredStar >= star ? "text-yellow-400" : "text-gray-400")
+            : userRating !== null
+              ? (userRating >= star ? "text-yellow-400" : "text-gray-400")
+              : (averageRating >= star ? "text-yellow-400" : "text-gray-400");
 
           return (
             <Star
               key={star}
               className={`h-5 w-5 ${fillClass} hover:fill-yellow-400`}
               onClick={() => handleRating(star)}
+              onMouseEnter={() => setHoveredStar(star)}
+              onMouseLeave={() => setHoveredStar(null)}
             />
           );
         })}

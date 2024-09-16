@@ -22,7 +22,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
     replace(`${pathname}?${params.toString()}`);
   }, 300);
   return (
-    <div className="relative flex flex-1 flex-shrink-0 p-2">
+    <div className="relative flex flex-1 flex-shrink-0 mt-6 mx-4">
       <label  className="sr-only">
         Search
       </label>

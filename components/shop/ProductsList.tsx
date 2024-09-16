@@ -27,7 +27,7 @@ function ListCards({ products, user }: ListCardsProps) {
   console.log(products)
   return (
     <section className="p-3">
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-3">
+      <div className="max-w-[1200px] p-12 sm:p-0 mx-auto grid grid-cols-1 lg:grid-cols-2  gap-6 pt-6 ">
         {products.map((item, index) => (
           <Card key={index} item={item} user={user} />
         ))}

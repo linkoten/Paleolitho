@@ -21,8 +21,6 @@ import {
   CardTitle,
 } from "../ui/card";
 
-
-
 export function generateMetadata() {
   return { title: "Posts" };
 }
@@ -86,19 +84,19 @@ export default function GetPosts({ posts }: any) {
             ]}
             onFilterChange={handleFilterChange}
           />
-          <div className="mt-2 p-4 grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4  xl:gap-8">
+          <div className="mt-2 p-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8 ">
             {filteredPosts.map(
               ({ slug, date, id, title, coverImage, tag, excerpt }: any) => (
-                <div key={id }>
+                <div key={id}>
                   <Link
                     key={id}
                     className="h-full"
                     href={`/dashboard/blog/${slug}`}
                   >
-                    <Card className="w-full max-w-sm h-full">
+                    <Card className="w-full max-w-sm h-full hover:scale-105 hover:brightness-90">
                       <div className="aspect-w-4 aspect-h-5 relative">
                         <Image
-                          src={coverImage.url}
+                          src={coverImage?.url}
                           alt={title}
                           width={400}
                           height={500}

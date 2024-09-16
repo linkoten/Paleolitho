@@ -18,6 +18,9 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
+export const revalidate = 60
+
+
 const renderers = {
   h1: ({ children }: any) => (
     <h1 className="text-blue-700 my-2 mb-4  text-center text-3xl font-bold   md:text-4xl lg:text-5xl">
@@ -68,17 +71,17 @@ const renderers = {
     <p className=" -color  my-4  text-xs  text-fifth-color">{children}</p>
   ),
   ul: ({ children }: any) => (
-    <ul className=" -color  my-4 list-inside list-disc text-lg  text-fifth-color">
+    <ul className=" -color  my-4  list-disc text-lg  text-fifth-color">
       {children}
     </ul>
   ),
   ol: ({ children }: any) => (
-    <ol className=" -color  my-4 list-inside list-decimal text-lg  text-fifth-color">
+    <ol className=" -color  my-4  list-decimal text-lg  text-fifth-color">
       {children}
     </ol>
   ),
   li: ({ children }: any) => (
-    <li className="  -color  my-2 text-lg text-fifth-color">{children}</li>
+    <li className="   text-red-800">{children}</li>
   ),
   code: ({ children }: any) => (
     <code className=" bg-gray-800  -color rounded-md bg-base-300 p-2 text-sm">

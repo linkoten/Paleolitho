@@ -18,8 +18,8 @@ export default async function page() {
   console.log("Je suis les favoris", favoriteProducts);
   return (
     <div className="grid grid-cols-2 gap-4">
-      {favoriteProducts.favorites.map((data) => (
-        <FavoriteList data={data?.product} user={user} favorite={favoriteProducts} />
+      {favoriteProducts.favorites.map((data, index) => (
+        <FavoriteList key={index} data={data?.product} user={user} favorite={favoriteProducts} />
       ))}
     </div>
   );

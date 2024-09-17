@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { Sidebar, SidebarBody, SidebarLink } from "./ui/sidebar";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { NotebookPen, Settings, CreditCard, House } from "lucide-react";
 import Favicon from "@/public/favicon.png";
+import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 
 
 

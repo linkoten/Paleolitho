@@ -1,8 +1,8 @@
 "use server";
 
 import { User } from "@prisma/client";
-import { getFavoritesProducts, toggleFavorite } from "@/lib/actionsProducts";
-import { ThreeDCardDemo } from "../3DCard";
+import { getFavoritesProducts } from "@/lib/actionsProducts";
+import { ThreeDCardDemo } from "./3DCard";
 
 
 interface CardProps {

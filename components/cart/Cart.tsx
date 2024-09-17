@@ -10,7 +10,7 @@ import {
 import { deleteFromCard } from "@/lib/actionsCart";
 import Image from "next/image";
 import Checkout from "./Checkout";
-import ButtonToast from "./ButtonToast";
+import ButtonToast from "../ButtonToast";
 import Link from "next/link";
 
 export default async function Cart(user: any) {

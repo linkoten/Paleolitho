@@ -1,7 +1,5 @@
-import { ThreeDCardDemo } from "@/components/3DCard";
-import FavoriteList from "@/components/FavoriteList";
+import FavoriteList from "@/components/shop/FavoriteList";
 import Loading from "@/components/Loading";
-import ListCards from "@/components/shop/ProductsList";
 import { getFavoritesProducts } from "@/lib/actionsProducts";
 import { getUser } from "@/lib/actionsUsers";
 import React, { Suspense } from "react";

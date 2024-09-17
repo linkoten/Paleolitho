@@ -1,10 +1,10 @@
 import ButtonSignOut from "@/components/ButtonSignOut";
-import DashboardNav from "@/components/DashboardNav";
 import {getUser } from "@/lib/actionsUsers";
 import {stripe} from "@/lib/stripe"
 import { prisma } from "@/lib/db";
-import Cart from "@/components/Cart";
+import Cart from "@/components/cart/Cart";
 import { createEmptyCart, getCart } from "@/lib/actionsCart";
+import DashboardNav from "@/components/navBar/DashboardNav";
 
 export default async function DashboardLayout({ children }: Readonly<{
   children: React.ReactNode;

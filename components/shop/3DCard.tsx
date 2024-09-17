@@ -2,17 +2,17 @@
 
 import Image from "next/image";
 import React from "react";
-import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
+import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import Link from "next/link";
 import { User } from "@prisma/client";
 import { getFavoritesProducts, toggleFavorite } from "@/lib/actionsProducts";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { Star } from "lucide-react";
-import { Input } from "./ui/input";
-import ButtonToast from "./ButtonToast";
+import { Input } from "../ui/input";
+import ButtonToast from "../ButtonToast";
 import { addToCart } from "@/lib/actionsCart";
-import { TextGenerateEffect } from "./ui/text-generate-effect";
+import { TextGenerateEffect } from "../ui/text-generate-effect";
 
 interface CardProps {
   data: {

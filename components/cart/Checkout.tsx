@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import CountryModal from "@/components/CountryModal"; // Assurez-vous que le chemin est correct
+import CountryModal from "@/components/cart/CountryModal"; // Assurez-vous que le chemin est correct
 
 
 

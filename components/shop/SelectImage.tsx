@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { ShoppingCart,  X, ZoomIn, ZoomOut } from "lucide-react";
+import { ShoppingCart, X, ZoomIn, ZoomOut } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -73,16 +73,14 @@ export default function SelectImage({
 
   const handleWheel = useCallback(
     (event: React.WheelEvent) => {
-      event.preventDefault();
       handleZoomChange(event.deltaY > 0 ? -1 : 1);
     },
     [handleZoomChange]
   );
 
-  const words = product.description
+  const words = product.description;
 
-  const words2 = product.title
-
+  const words2 = product.title;
 
   return (
     <section>
@@ -104,10 +102,9 @@ export default function SelectImage({
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex flex-col  gap-6">
-            
             {/* Première colonne : Carousel et images secondaires */}
             <div className="space-y-4 ">
-            <h2 className="text-2xl font-bold pt-12">{product.title}</h2>
+              <h2 className="text-2xl font-bold pt-12">{product.title}</h2>
 
               <Carousel className="w-2/3 mx-auto ">
                 <CarouselContent>
@@ -121,6 +118,8 @@ export default function SelectImage({
                         alt={product.title}
                         className="rounded-lg w-auto h-full cursor-pointer object-cover"
                         fill
+                        sizes="auto"
+
                       />
                       <Badge className="absolute top-2 right-2 bg-blue-600">
                         Nouveau
@@ -141,8 +140,9 @@ export default function SelectImage({
                     <Image
                       src={img}
                       alt={`${product.title} - vue ${index + 1}`}
-                      layout="fill"
-                      objectFit="cover"
+                      fill
+                      sizes="auto"
+
                     />
                   </button>
                 ))}
@@ -151,18 +151,20 @@ export default function SelectImage({
 
             {/* Deuxième colonne : Informations */}
             <div className="space-y-4 ">
-              <div>
-              </div>
+              <div></div>
               <TextGenerateEffect words={words} className="text-xs" />
 
-              <ProductRating productId={product.id} userId={user.id} ratings={ratings}/>
+              <ProductRating
+                productId={product.id}
+                userId={user.id}
+                ratings={ratings}
+              />
               <div className="flex flex-wrap gap-2 justify-center">
                 <Badge>{product.country}</Badge>
                 <Badge>{product.stages}</Badge>
               </div>
             </div>
             <h2 className="text-xl font-bold ">{product.price} €</h2>
-
 
             {/* Troisième colonne : Prix, stock et bouton */}
             <div className="space-y-4 flex flex-col justify-between ">
@@ -210,7 +212,7 @@ export default function SelectImage({
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-3xl" title={product.title}>
+        <DialogContent className="max-w-3xl" title={product.title} aria-describedby={product.title}>
           <DialogTitle></DialogTitle>
           <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
             <X className="h-4 w-4" />
@@ -245,7 +247,7 @@ export default function SelectImage({
             <Image
               src={activeImage}
               alt={`${product.title} - vue ${activeImage + 1}`}
-              layout="fill"
+              fill
               objectFit="contain"
               style={{
                 transform: `scale(${zoomLevels[zoomLevel]})`,

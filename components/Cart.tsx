@@ -62,6 +62,7 @@ export default async function Cart(user: any) {
                           alt={item.product.title as string}
                           fill
                           className="h-full w-full object-cover object-center fill "
+                          sizes="auto"
                         />
                       </div>
                     )}

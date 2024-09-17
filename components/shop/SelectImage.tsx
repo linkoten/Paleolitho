@@ -32,6 +32,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import ProductRating from "./ProductRating";
+import { TextGenerateEffect } from "../ui/text-generate-effect";
 
 interface SelectImageProps {
   product: any;
@@ -78,6 +79,11 @@ export default function SelectImage({
     [handleZoomChange]
   );
 
+  const words = product.description
+
+  const words2 = product.title
+
+
   return (
     <section>
       <Card className="w-full max-w-4xl">
@@ -89,7 +95,7 @@ export default function SelectImage({
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/shop">Shop</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard/shop">Shop</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -98,9 +104,12 @@ export default function SelectImage({
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex flex-col  gap-6">
+            
             {/* Première colonne : Carousel et images secondaires */}
             <div className="space-y-4 ">
-              <Carousel className="w-2/3 mx-auto pt-4">
+            <h2 className="text-2xl font-bold pt-12">{product.title}</h2>
+
+              <Carousel className="w-2/3 mx-auto ">
                 <CarouselContent>
                   <CarouselItem>
                     <div className="relative h-96 ">
@@ -119,8 +128,6 @@ export default function SelectImage({
                     </div>
                   </CarouselItem>
                 </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
               </Carousel>
               <div className="flex flex-wrap space-x-2 overflow-x-auto p-2 justify-center">
                 {product.images.map((img: string, index: any) => (
@@ -145,9 +152,8 @@ export default function SelectImage({
             {/* Deuxième colonne : Informations */}
             <div className="space-y-4 ">
               <div>
-                <h2 className="text-2xl font-bold">{product.title}</h2>
               </div>
-              <p className="text-lg text-gray-600 ">{product.description}</p>
+              <TextGenerateEffect words={words} className="text-xs" />
 
               <ProductRating productId={product.id} userId={user.id} ratings={ratings}/>
               <div className="flex flex-wrap gap-2 justify-center">
@@ -155,6 +161,8 @@ export default function SelectImage({
                 <Badge>{product.stages}</Badge>
               </div>
             </div>
+            <h2 className="text-xl font-bold ">{product.price} €</h2>
+
 
             {/* Troisième colonne : Prix, stock et bouton */}
             <div className="space-y-4 flex flex-col justify-between ">

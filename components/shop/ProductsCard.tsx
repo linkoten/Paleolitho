@@ -4,6 +4,7 @@ import { User } from "@prisma/client";
 import { getFavoritesProducts, toggleFavorite } from "@/lib/actionsProducts";
 import { ThreeDCardDemo } from "../3DCard";
 
+
 interface CardProps {
   item: {
     title: string | null; // Allow title to be null

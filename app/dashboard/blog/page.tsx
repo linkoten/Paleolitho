@@ -1,5 +1,7 @@
 import GetPosts from "@/components/blog/GetPosts";
+import Loading from "@/components/Loading";
 import { GraphQLClient } from "graphql-request";
+import { Suspense } from "react";
 
 export const revalidate = 60;
 
@@ -39,7 +41,12 @@ export default async function Home() {
 
   console.log("les posts", posts);
 
-  return <GetPosts posts={posts} />;
+  return (
+    <Suspense fallback={<Loading />}>
+
+  <GetPosts posts={posts} />
+  </Suspense>
+);
 }
 
 //       <Image src={Reg} alt="Reg" className="w-full h-full relative opacity-20" fill/>

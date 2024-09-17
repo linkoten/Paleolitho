@@ -12,6 +12,7 @@ import { Star } from "lucide-react";
 import { Input } from "./ui/input";
 import ButtonToast from "./ButtonToast";
 import { addToCart } from "@/lib/actionsCart";
+import { TextGenerateEffect } from "./ui/text-generate-effect";
 
 interface CardProps {
   data: {
@@ -37,23 +38,26 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
   const userId = user.id;
 
   const toastText = "Le produit a été ajouté au panier";
-  
 
   const isFavorite = favorite?.favorites.some(
     (favorite: any) => favorite.product.id === data.id
   );
 
-  const toastTextFavorite = isFavorite ? "Produit supprimé des favoris" : "Produit ajouté aux favoris";
+  const toastTextFavorite = isFavorite
+    ? "Produit supprimé des favoris"
+    : "Produit ajouté aux favoris";
+
+  const words = data.title as string;
 
   return (
     <CardContainer className="inter-var">
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-        <div className="flex justify-around">
+        <div className="flex justify-between px-4">
           <CardItem
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"
           >
-            {data.title}
+            <TextGenerateEffect words={words} />
           </CardItem>
           <CardItem
             translateZ="50"
@@ -105,10 +109,11 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
               className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
               alt={data.title as string}
             />
+            <div className="pt-4">{data.price} € </div>
           </CardItem>
         </Link>
 
-        <div className="flex justify-between datas-center mt-20">
+        <div className="flex justify-between datas-center mt-8">
           <CardItem
             translateZ={20}
             className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"

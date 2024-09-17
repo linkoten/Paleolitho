@@ -18,6 +18,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { revalidatePath } from "next/cache";
+import { Suspense } from "react";
+import Loading from "@/components/Loading";
 
 export default async function Home({
   searchParams,
@@ -97,10 +99,9 @@ export default async function Home({
       <Search placeholder="Search invoices..." />
 
       <Filters items={items} />
-      <div>
+      <Suspense fallback={<Loading />}>
         <ListCards products={products} user={user} />
-      </div>
-
+      </Suspense>
       <div className="mt-5 pb-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>

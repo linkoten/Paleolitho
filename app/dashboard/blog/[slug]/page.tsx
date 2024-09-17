@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { RichText } from "@graphcms/rich-text-react-renderer";
 import {
   Table,
@@ -17,9 +17,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Loading from "@/components/Loading";
 
-export const revalidate = 60
-
+export const revalidate = 60;
 
 const renderers = {
   h1: ({ children }: any) => (
@@ -80,9 +80,7 @@ const renderers = {
       {children}
     </ol>
   ),
-  li: ({ children }: any) => (
-    <li className="   text-red-800">{children}</li>
-  ),
+  li: ({ children }: any) => <li className="   text-red-800">{children}</li>,
   code: ({ children }: any) => (
     <code className=" bg-gray-800  -color rounded-md bg-base-300 p-2 text-sm">
       {children}
@@ -111,7 +109,6 @@ const renderers = {
 };
 
 export default async function page({ params }: any) {
-
   const post = await getPost(params.slug);
 
   console.log("Je suis le post", post, params);
@@ -125,7 +122,7 @@ export default async function page({ params }: any) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Blog</BreadcrumbLink>
+            <BreadcrumbLink href="/dashboard/blog">Blog</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
 
@@ -134,7 +131,10 @@ export default async function page({ params }: any) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+      <Suspense fallback={<Loading />}>
+
       <RichText content={post.content.json.children} renderers={renderers} />
+      </Suspense>
     </>
   );
 }

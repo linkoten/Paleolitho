@@ -8,8 +8,6 @@ import { NotebookPen, Settings, CreditCard, House } from "lucide-react";
 import Favicon from "@/public/favicon.png";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 
-
-
 export function SidebarDemo({ user }: any) {
   const links = [
     {
@@ -45,6 +43,9 @@ export function SidebarDemo({ user }: any) {
         ]
       : []),
   ];
+
+  console.log(links)
+  console.log(user)
   const [open, setOpen] = useState(true);
   return (
     <div
@@ -53,7 +54,7 @@ export function SidebarDemo({ user }: any) {
         "h-[7vh] md:h-[70vh]" // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
     >
-      <Sidebar open={open} setOpen={setOpen} >
+      <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
@@ -91,7 +92,13 @@ export const Logo = () => {
       href="/public/favicon.png"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <Image src={Favicon} height={512} width={512} alt="Favicon Paleolitho" className="h-8 w-10  dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0"/>
+      <Image
+        src={Favicon}
+        height={512}
+        width={512}
+        alt="Favicon Paleolitho"
+        className="h-8 w-10  dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0"
+      />
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -108,8 +115,14 @@ export const LogoIcon = () => {
       href="/public/favicon.png"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <Image src={Favicon} height={512} width={512} alt="Favicon Paleolitho" className="h-8 w-10  dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0"/>
-      </Link>
+      <Image
+        src={Favicon}
+        height={512}
+        width={512}
+        alt="Favicon Paleolitho"
+        className="h-8 w-10  dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0"
+      />
+    </Link>
   );
 };
 

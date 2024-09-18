@@ -91,7 +91,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
                 />
               </ButtonToast>
             </form>
-            <Button variant={"ghost"} className=" text-lg border border-yellow-200"  >{data.price} € </Button>
+            <Badge variant={"secondary"}  className=" text-lg "  >{data.price} € </Badge>
             </div>
 
           </CardItem>
@@ -119,7 +119,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
           </CardItem>
         </Link>
 
-        <div className="flex justify-between datas-center mt-8">
+        <div className=" max-sm:hidden flex justify-between datas-center mt-8">
           <CardItem
             translateZ={20}
             className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"

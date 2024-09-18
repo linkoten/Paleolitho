@@ -64,6 +64,51 @@ export default async function CreatePage({ params }: UpdatePageProps) {
               id="description"
             />
           </div>
+          <div className="gap-y-2 flex flex-col">
+              <Label htmlFor="category">Catégorie du produit</Label>
+              <Textarea
+                placeholder="catégorie du produit"
+                required
+                name="category"
+                id="category"
+              />
+            </div>
+            <div className="gap-y-2 flex flex-col">
+              <Label htmlFor="country">Pays du produit</Label>
+              <Textarea
+                placeholder="Pays du produit"
+                required
+                name="country"
+                id="country"
+              />
+            </div>
+            <div className="gap-y-2 flex flex-col">
+              <Label htmlFor="locality">Localité du produit</Label>
+              <Textarea
+                placeholder="Localité du produit"
+                required
+                name="locality"
+                id="locality"
+              />
+            </div>
+            <div className="gap-y-2 flex flex-col">
+              <Label htmlFor="period">Ere du produit</Label>
+              <Textarea
+                placeholder="Ere du produit"
+                required
+                name="period"
+                id="period"
+              />
+            </div>
+            <div className="gap-y-2 flex flex-col">
+              <Label htmlFor="stages">Etage du produit</Label>
+              <Textarea
+                placeholder="Etage du produit"
+                required
+                name="stages"
+                id="stages"
+              />
+            </div>
 
           <div className="gap-y-2 flex flex-col">
             <Label htmlFor="price">Prix</Label>
@@ -83,6 +128,16 @@ export default async function CreatePage({ params }: UpdatePageProps) {
               id="stock"
             />
           </div>
+          <div className="gap-y-2 flex flex-col">
+              <Label htmlFor="weight">Poids en GRAMMES</Label>
+              <Input
+                placeholder="poids du produit"
+                required
+                type="number"
+                name="weight"
+                id="stock"
+              />
+            </div>
           <div className="gap-y-2 flex flex-col">
           <Label htmlFor="images">Images</Label>
               <Input

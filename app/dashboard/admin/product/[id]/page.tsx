@@ -21,6 +21,7 @@ interface Params {
   price: number;
   stock: number;
   images: string;
+  weight: number
 }
 
 interface UpdatePageProps {
@@ -65,50 +66,57 @@ export default async function CreatePage({ params }: UpdatePageProps) {
             />
           </div>
           <div className="gap-y-2 flex flex-col">
-              <Label htmlFor="category">Catégorie du produit</Label>
-              <Textarea
-                placeholder="catégorie du produit"
-                required
-                name="category"
-                id="category"
-              />
-            </div>
-            <div className="gap-y-2 flex flex-col">
-              <Label htmlFor="country">Pays du produit</Label>
-              <Textarea
-                placeholder="Pays du produit"
-                required
-                name="country"
-                id="country"
-              />
-            </div>
-            <div className="gap-y-2 flex flex-col">
-              <Label htmlFor="locality">Localité du produit</Label>
-              <Textarea
-                placeholder="Localité du produit"
-                required
-                name="locality"
-                id="locality"
-              />
-            </div>
-            <div className="gap-y-2 flex flex-col">
-              <Label htmlFor="period">Ere du produit</Label>
-              <Textarea
-                placeholder="Ere du produit"
-                required
-                name="period"
-                id="period"
-              />
-            </div>
-            <div className="gap-y-2 flex flex-col">
-              <Label htmlFor="stages">Etage du produit</Label>
-              <Textarea
-                placeholder="Etage du produit"
-                required
-                name="stages"
-                id="stages"
-              />
-            </div>
+            <Label htmlFor="category">Catégorie du produit</Label>
+            <Textarea
+              defaultValue={product?.category as string}
+              placeholder="catégorie du produit"
+              required
+              name="category"
+              id="category"
+            />
+          </div>
+          <div className="gap-y-2 flex flex-col">
+            <Label htmlFor="country">Pays du produit</Label>
+            <Textarea
+              defaultValue={product?.country as string}
+              placeholder="Pays du produit"
+              required
+              name="country"
+              id="country"
+            />
+          </div>
+          <div className="gap-y-2 flex flex-col">
+            <Label htmlFor="locality">Localité du produit</Label>
+            <Textarea
+              defaultValue={product?.locality as string}
+              placeholder="Localité du produit"
+              required
+              name="locality"
+              id="locality"
+            />
+          </div>
+          <div className="gap-y-2 flex flex-col">
+            <Label htmlFor="period">Ere du produit</Label>
+            <Textarea
+                                                      defaultValue={product?.period as string}
+
+              placeholder="Ere du produit"
+              required
+              name="period"
+              id="period"
+            />
+          </div>
+          <div className="gap-y-2 flex flex-col">
+            <Label htmlFor="stages">Etage du produit</Label>
+            <Textarea
+                                                      defaultValue={product?.stages as string}
+
+              placeholder="Etage du produit"
+              required
+              name="stages"
+              id="stages"
+            />
+          </div>
 
           <div className="gap-y-2 flex flex-col">
             <Label htmlFor="price">Prix</Label>
@@ -129,98 +137,90 @@ export default async function CreatePage({ params }: UpdatePageProps) {
             />
           </div>
           <div className="gap-y-2 flex flex-col">
-              <Label htmlFor="weight">Poids en GRAMMES</Label>
-              <Input
-                placeholder="poids du produit"
-                required
-                type="number"
-                name="weight"
-                id="stock"
-              />
-            </div>
+            <Label htmlFor="weight">Poids en GRAMMES</Label>
+            <Input
+                                                      defaultValue={product?.weight as number}
+
+              placeholder="poids du produit"
+              required
+              type="number"
+              name="weight"
+              id="stock"
+            />
+          </div>
           <div className="gap-y-2 flex flex-col">
-          <Label htmlFor="images">Images</Label>
-              <Input
-                placeholder="Lien de l'image 1"
-                required
-                type="text"
-                name="images"
-                id="image1"
-                defaultValue={product?.images[0] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 2"
-                type="text"
-                name="images"
-                id="image2"
-                defaultValue={product?.images[1] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 3"
-                type="text"
-                name="images"
-                id="image3"
-                defaultValue={product?.images[2] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 4"
-                type="text"
-                name="images"
-                id="image4"
-                defaultValue={product?.images[3] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 5"
-                type="text"
-                name="images"
-                id="image5"
-                defaultValue={product?.images[4] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 6"
-                type="text"
-                name="images"
-                id="image6"
-                defaultValue={product?.images[5] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 7"
-                type="text"
-                name="images"
-                id="image7"
-                defaultValue={product?.images[6] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 8"
-                type="text"
-                name="images"
-                id="image8"                
-                defaultValue={product?.images[7] as string}
-
-              />
-              <Input
-                placeholder="Lien de l'image 9"
-                type="text"
-                name="images"
-                id="image9"
-                defaultValue={product?.images[8] as string}
-
-              />
-               <Input
-                placeholder="Lien de l'image 10"
-                type="text"
-                name="images"
-                id="image10"
-                defaultValue={product?.images[9] as string}
-
-              />
+            <Label htmlFor="images">Images</Label>
+            <Input
+              placeholder="Lien de l'image 1"
+              required
+              type="text"
+              name="images"
+              id="image1"
+              defaultValue={product?.images[0] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 2"
+              type="text"
+              name="images"
+              id="image2"
+              defaultValue={product?.images[1] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 3"
+              type="text"
+              name="images"
+              id="image3"
+              defaultValue={product?.images[2] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 4"
+              type="text"
+              name="images"
+              id="image4"
+              defaultValue={product?.images[3] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 5"
+              type="text"
+              name="images"
+              id="image5"
+              defaultValue={product?.images[4] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 6"
+              type="text"
+              name="images"
+              id="image6"
+              defaultValue={product?.images[5] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 7"
+              type="text"
+              name="images"
+              id="image7"
+              defaultValue={product?.images[6] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 8"
+              type="text"
+              name="images"
+              id="image8"
+              defaultValue={product?.images[7] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 9"
+              type="text"
+              name="images"
+              id="image9"
+              defaultValue={product?.images[8] as string}
+            />
+            <Input
+              placeholder="Lien de l'image 10"
+              type="text"
+              name="images"
+              id="image10"
+              defaultValue={product?.images[9] as string}
+            />
           </div>
         </CardContent>
         <CardFooter className="flex items-center justify-between">
@@ -231,7 +231,9 @@ export default async function CreatePage({ params }: UpdatePageProps) {
             toastText={toastText}
             type="submit"
             className="bg-orange-500 mx-1 my-2 hover:bg-orange-600 text-white"
-          > Modifier
+          >
+            {" "}
+            Modifier
           </ButtonToast>
         </CardFooter>
       </form>

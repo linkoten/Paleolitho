@@ -9,6 +9,8 @@ import Favicon from "@/public/favicon.png";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 
 export function SidebarDemo({ user }: any) {
+
+  const userEmail = user.email as string
   const links = [
     {
       label: "Home",
@@ -44,14 +46,12 @@ export function SidebarDemo({ user }: any) {
       : []),
   ];
 
-  console.log(links)
-  console.log(user)
   const [open, setOpen] = useState(true);
   return (
     <div
       className={cn(
         "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        "h-[7vh] md:h-[70vh]" // for your use case, use `h-screen` instead of `h-[60vh]`
+        "h-[7vh] md:h-[70vh]" 
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -67,7 +67,7 @@ export function SidebarDemo({ user }: any) {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: userEmail ,
                 href: "#",
                 icon: (
                   <Image

@@ -24,6 +24,7 @@ interface CardProps {
     stock: number;
     images: string[];
     id: string;
+    category: string;
     country: string;
     locality: string;
     period: string;
@@ -63,6 +64,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white z-50"
           >
+            <div className="flex space-x-2">
             <form action={toggleFavorite}>
               <Input
                 type="text"
@@ -80,6 +82,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
                 type="submit"
                 variant={"outline"}
                 toastText={toastTextFavorite}
+                className="border border-yellow-200"
               >
                 <Star
                   className={`cursor-pointer ${
@@ -88,6 +91,9 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
                 />
               </ButtonToast>
             </form>
+            <Button variant={"ghost"} className=" text-lg border border-yellow-200"  >{data.price} € </Button>
+            </div>
+
           </CardItem>
         </div>
         <Link href={`shop/${data.id}`}>
@@ -96,6 +102,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
             translateZ="60"
             className="flex flex-wrap gap-2 text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
           >
+                          <Badge>{data.category}</Badge>
             <Badge className="text-center">{data.country}</Badge>
             <Badge>{data.locality}</Badge>
             <Badge>{data.period}</Badge>
@@ -109,7 +116,6 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
               className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
               alt={data.title as string}
             />
-            <div className="pt-4">{data.price} € </div>
           </CardItem>
         </Link>
 

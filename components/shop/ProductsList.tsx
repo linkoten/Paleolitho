@@ -10,6 +10,7 @@ interface Products {
   price: number;
   stock: number;
   images: string[];
+  category: string
   country: string;
   locality: string;
   period: string;

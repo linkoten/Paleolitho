@@ -15,6 +15,7 @@ interface CardProps {
     stock: number;
     images: string[];
     id: string;
+    category: string
     country: string;
     locality: string;
     period: string;

@@ -119,7 +119,6 @@ export default function SelectImage({
                         className="rounded-lg w-auto h-full cursor-pointer object-cover"
                         fill
                         sizes="auto"
-
                       />
                       <Badge className="absolute top-2 right-2 bg-blue-600">
                         Nouveau
@@ -142,7 +141,6 @@ export default function SelectImage({
                       alt={`${product.title} - vue ${index + 1}`}
                       fill
                       sizes="auto"
-
                     />
                   </button>
                 ))}
@@ -160,11 +158,19 @@ export default function SelectImage({
                 ratings={ratings}
               />
               <div className="flex flex-wrap gap-2 justify-center">
+                <Badge>{product.category}</Badge>
                 <Badge>{product.country}</Badge>
+                <Badge>{product.locality}</Badge>
+                <Badge>{product.period}</Badge>
                 <Badge>{product.stages}</Badge>
               </div>
             </div>
-            <h2 className="text-xl font-bold ">{product.price} €</h2>
+            <Button
+              variant={"ghost"}
+              className="text-lg font-bold border border-yellow-200 w-fit mx-auto "
+            >
+              {product.price} €
+            </Button>
 
             {/* Troisième colonne : Prix, stock et bouton */}
             <div className="space-y-4 flex flex-col justify-between ">
@@ -212,7 +218,11 @@ export default function SelectImage({
       </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-3xl" title={product.title} aria-describedby={product.title}>
+        <DialogContent
+          className="max-w-3xl"
+          title={product.title}
+          aria-describedby={product.title}
+        >
           <DialogTitle></DialogTitle>
           <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
             <X className="h-4 w-4" />

@@ -96,7 +96,7 @@ export default async function Home({
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Search placeholder="Search invoices..." />
+      <Search placeholder="Recherche..." />
 
       <Filters items={items} />
       <Suspense fallback={<Loading />}>

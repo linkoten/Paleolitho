@@ -46,8 +46,6 @@ export default function GetPosts({ posts }: any) {
     setLanguage(language === "english" ? "french" : "english");
   };
 
-  console.log(filteredPosts);
-
   return (
     <>
       <Breadcrumb>
@@ -105,6 +103,7 @@ export default function GetPosts({ posts }: any) {
                             aspectRatio: "400/500",
                             objectFit: "cover",
                           }}
+                          priority
                         />
                       </div>
                       <CardHeader className="grid gap-1 p-4">

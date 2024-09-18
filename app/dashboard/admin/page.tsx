@@ -52,7 +52,9 @@ export default async function page() {
               Commencez des maintenant à créer des produits via notre
               application
             </p>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white mt-4">
+            <Button
+              className="bg-orange-500 hover:bg-orange-600 text-white mt-4 "
+            >
               <Link href="/dashboard/admin/createProduct">
                 Créer un nouveau produit
               </Link>
@@ -81,7 +83,7 @@ export default async function page() {
                       {item.price + " €"}
                     </TableCell>
                     <TableCell className=" flex justify-end items-center space-x-2">
-                      <Button
+                      <Button asChild
                         type="button"
                         className="bg-yellow-500 hover:bg-yellow-600 text-white "
                       >

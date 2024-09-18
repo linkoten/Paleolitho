@@ -9,7 +9,7 @@ export default function Home() {
   const { data: session } = useSession();
 
   if (session) {
-    redirect("/dashboard/blog");
+    redirect("/dashboard/shop");
   }
   return (
     <section className="w-full h-screen flex items-center justify-center flex-col gap-2 relative">

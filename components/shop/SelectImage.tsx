@@ -33,7 +33,6 @@ import {
 } from "@/components/ui/dialog";
 import ProductRating from "./ProductRating";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
-import { roboto_mono } from "@/components/font";
 
 interface SelectImageProps {
   product: any;
@@ -151,7 +150,7 @@ export default function SelectImage({
             {/* Deuxième colonne : Informations */}
             <div className="space-y-4 ">
               <div></div>
-              <TextGenerateEffect words={words} className={roboto_mono.className + " text-xs"} />
+              <TextGenerateEffect words={words} className= " text-xs" />
 
               <ProductRating
                 productId={product.id}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { inter } from '@/components/font'
+import { gentium_book_plus, inter } from '@/components/font'
 import "./globals.css";
 import SessionWrapper from "@/lib/SessionWrapper";
 import { Toaster } from "@/components/ui/sonner";
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} relative`}>
+      <body className={`${gentium_book_plus.className} relative`}>
         {/* Image de fond fixe */}
         <div
           className="fixed inset-0 bg-cover bg-center -z-10 opacity-20"

@@ -50,13 +50,13 @@ export function SidebarDemo({ user }: any) {
   return (
     <div
       className={cn(
-        "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
+        "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 dark:border-neutral-700 overflow-x-auto",
         "h-[7vh] md:h-[70vh]" 
       )}
     >
-      <Sidebar open={open} setOpen={setOpen} >
+      <Sidebar open={open} setOpen={setOpen} animate={false} >
         <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="flex flex-col flex-1  overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 pl-2 flex flex-col h-full justify-around ">
               {links.map((link, idx) => (

@@ -65,35 +65,36 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
             className="text-xl font-bold text-neutral-600 dark:text-white z-50"
           >
             <div className="flex space-x-2">
-            <form action={toggleFavorite}>
-              <Input
-                type="text"
-                name="userId"
-                defaultValue={userId}
-                className="  hidden"
-              />{" "}
-              <Input
-                type="text"
-                name="productId"
-                defaultValue={productId}
-                className="  hidden"
-              />{" "}
-              <ButtonToast
-                type="submit"
-                variant={"outline"}
-                toastText={toastTextFavorite}
-                className="border border-yellow-200"
-              >
-                <Star
-                  className={`cursor-pointer ${
-                    isFavorite ? "fill-yellow-300" : ""
-                  }`}
-                />
-              </ButtonToast>
-            </form>
-            <Badge variant={"secondary"}  className=" text-lg "  >{data.price} € </Badge>
+              <form action={toggleFavorite}>
+                <Input
+                  type="text"
+                  name="userId"
+                  defaultValue={userId}
+                  className="  hidden"
+                />{" "}
+                <Input
+                  type="text"
+                  name="productId"
+                  defaultValue={productId}
+                  className="  hidden"
+                />{" "}
+                <ButtonToast
+                  type="submit"
+                  variant={"outline"}
+                  toastText={toastTextFavorite}
+                  className="border border-yellow-200 px-2"
+                >
+                  <Star
+                    className={`cursor-pointer ${
+                      isFavorite ? "fill-yellow-300" : ""
+                    }`}
+                  />
+                </ButtonToast>
+              </form>
+              <Badge variant={"secondary"} className="text-xs md:text-lg ">
+                {data.price} €{" "}
+              </Badge>
             </div>
-
           </CardItem>
         </div>
         <Link href={`shop/${data.id}`}>
@@ -102,7 +103,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
             translateZ="60"
             className="flex flex-wrap gap-2 text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
           >
-                          <Badge>{data.category}</Badge>
+            <Badge>{data.category}</Badge>
             <Badge className="text-center">{data.country}</Badge>
             <Badge>{data.locality}</Badge>
             <Badge>{data.period}</Badge>

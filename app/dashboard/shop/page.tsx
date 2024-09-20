@@ -17,9 +17,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { revalidatePath } from "next/cache";
 import { Suspense } from "react";
 import Loading from "@/components/Loading";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Paleolitho/shop",
+  description: "Official Shop of Paleolitho where you can find and buy Fossils"
+}
 
 export default async function Home({
   searchParams,

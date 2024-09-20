@@ -1,9 +1,15 @@
 import GetPosts from "@/components/blog/GetPosts";
 import Loading from "@/components/Loading";
 import { GraphQLClient } from "graphql-request";
+import { Metadata } from "next";
 import { Suspense } from "react";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "Paleolitho/blog",
+  description: "Official Blog of Paleolitho where you can find articles about Trilobites and Shells."
+}
 
 const getPosts = async () => {
   const hygraph = new GraphQLClient(

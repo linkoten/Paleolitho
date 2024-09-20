@@ -21,7 +21,7 @@ export default function Home() {
       />
 
       <h1 className="text-4xl md:text-6xl  font-black mb-2 text-center uppercase flex items-center">
-        <span>Yo </span>
+        <span>Paleolitho </span>
       </h1>
 
       <ButtonsProviders />

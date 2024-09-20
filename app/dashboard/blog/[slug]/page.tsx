@@ -18,6 +18,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Loading from "@/components/Loading";
+import { Metadata } from "next";
 
 export const revalidate = 60;
 
@@ -107,6 +108,16 @@ const renderers = {
     />
   ),
 };
+
+export async function generateMetadata({
+  params,
+}: any): Promise<Metadata> {
+  const post = await getPost(params.slug);
+  return {
+    title: post?.title,
+    description: post?.title,
+  };
+}
 
 export default async function page({ params }: any) {
   const post = await getPost(params.slug);

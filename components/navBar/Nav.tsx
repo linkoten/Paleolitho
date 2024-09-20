@@ -3,7 +3,7 @@
 // import {ThemeToggle} from "./ThemeToggle"
 //<ThemeToggle/>
 
-import LogoMdc from "@/public/vercel.svg"
+import Logo from "@/public/Paleolitho4.png"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -14,7 +14,7 @@ export default function Nav() {
 
       <div>
         <Link href='/'>
-         <Image width={30} height={30} src={LogoMdc} className=" w-12 h-12" alt="Logo La Minute De Code" />
+         <Image width={200} height={30} src={Logo} className=" w-auto h-16" alt="Paleolitho" priority />
         </Link>
       </div>
 

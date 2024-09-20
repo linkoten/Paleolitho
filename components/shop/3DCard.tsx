@@ -53,7 +53,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
   return (
     <CardContainer className="inter-var">
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-        <div className="flex justify-between px-4">
+        <div className="flex justify-between px-2">
           <CardItem
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"
@@ -92,7 +92,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
                 </ButtonToast>
               </form>
               <Badge variant={"secondary"} className="text-xs md:text-lg ">
-                {data.price} €{" "}
+                {data.price}€{" "}
               </Badge>
             </div>
           </CardItem>
@@ -120,7 +120,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
           </CardItem>
         </Link>
 
-        <div className=" max-sm:hidden flex justify-between datas-center mt-8">
+        <div className=" max-sm:hidden flex justify-between items-center mt-8">
           <CardItem
             translateZ={20}
             className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
@@ -156,7 +156,7 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
                   defaultValue={productId}
                   className="  hidden"
                 />{" "}
-                <div className=" flex justify-around place-datas-end">
+                <div className=" flex justify-around ">
                   <Input
                     type="number"
                     name="quantity"

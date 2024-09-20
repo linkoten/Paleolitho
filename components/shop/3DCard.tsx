@@ -5,14 +5,13 @@ import React from "react";
 import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import Link from "next/link";
 import { User } from "@prisma/client";
-import { getFavoritesProducts, toggleFavorite } from "@/lib/actionsProducts";
+import { toggleFavorite } from "@/lib/actionsProducts";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Star } from "lucide-react";
 import { Input } from "../ui/input";
 import ButtonToast from "../ButtonToast";
 import { addToCart } from "@/lib/actionsCart";
-import { TextGenerateEffect } from "../ui/text-generate-effect";
 
 interface CardProps {
   data: {
@@ -48,7 +47,6 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
     ? "Produit supprimé des favoris"
     : "Produit ajouté aux favoris";
 
-  const words = data.title as string;
 
   return (
     <CardContainer className="inter-var">
@@ -56,15 +54,15 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
         <div className="flex justify-between px-2">
           <CardItem
             translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
+            className="text-lg md:text-xl font-bold text-neutral-600 dark:text-white"
           >
-            <TextGenerateEffect words={words} />
+            <h2>{data.title}</h2>  
           </CardItem>
           <CardItem
             translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white z-50"
+            className="text-xl max-sm:pl-2 font-bold text-neutral-600 dark:text-white z-50"
           >
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 ">
               <form action={toggleFavorite}>
                 <Input
                   type="text"
@@ -101,7 +99,8 @@ export function ThreeDCardDemo({ data, user, favorite }: CardProps) {
           <CardItem
             as="ul"
             translateZ="60"
-            className="flex flex-wrap gap-2 text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            className="flex flex-wrap gap-2 text-neutral-500 text-sm max-w-sm mt-2  dark:text-neutral-300 "
+            
           >
             <Badge>{data.category}</Badge>
             <Badge className="text-center">{data.country}</Badge>

@@ -21,8 +21,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useCallback, useRef, useState } from "react";
 import {
@@ -106,7 +104,7 @@ export default function SelectImage({
             <div className="space-y-4 ">
               <h2 className="text-2xl font-bold pt-12">{product.title}</h2>
 
-              <Carousel className="w-2/3 mx-auto ">
+              <Carousel className=" mx-auto ">
                 <CarouselContent>
                   <CarouselItem>
                     <div className="relative h-96 ">
@@ -127,11 +125,11 @@ export default function SelectImage({
                   </CarouselItem>
                 </CarouselContent>
               </Carousel>
-              <div className="flex flex-wrap space-x-2 overflow-x-auto p-2 justify-center">
+              <div className="flex flex-wrap gap-2 overflow-x-auto justify-center ">
                 {product.images.map((img: string, index: any) => (
                   <button
                     key={index}
-                    className={`flex-shrink-0 w-20 h-20 relative rounded-md overflow-hidden ${
+                    className={`flex-shrink-0 w-20 h-20 relative rounded-md overflow-hidden my-2 ${
                       activeImage === img ? "ring-2 ring-blue-500" : ""
                     }`}
                     onClick={() => setActiveImage(img)}

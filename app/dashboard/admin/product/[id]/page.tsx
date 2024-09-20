@@ -21,7 +21,7 @@ interface Params {
   price: number;
   stock: number;
   images: string;
-  weight: number
+  weight: number;
 }
 
 interface UpdatePageProps {
@@ -98,8 +98,7 @@ export default async function CreatePage({ params }: UpdatePageProps) {
           <div className="gap-y-2 flex flex-col">
             <Label htmlFor="period">Ere du produit</Label>
             <Textarea
-                                                      defaultValue={product?.period as string}
-
+              defaultValue={product?.period as string}
               placeholder="Ere du produit"
               required
               name="period"
@@ -109,8 +108,7 @@ export default async function CreatePage({ params }: UpdatePageProps) {
           <div className="gap-y-2 flex flex-col">
             <Label htmlFor="stages">Etage du produit</Label>
             <Textarea
-                                                      defaultValue={product?.stages as string}
-
+              defaultValue={product?.stages as string}
               placeholder="Etage du produit"
               required
               name="stages"
@@ -139,8 +137,7 @@ export default async function CreatePage({ params }: UpdatePageProps) {
           <div className="gap-y-2 flex flex-col">
             <Label htmlFor="weight">Poids en GRAMMES</Label>
             <Input
-                                                      defaultValue={product?.weight as number}
-
+              defaultValue={product?.weight as number}
               placeholder="poids du produit"
               required
               type="number"

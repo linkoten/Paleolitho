@@ -323,6 +323,11 @@ export const updateProduct = async (formData: FormData) => {
     const id = formData.get("id") as string;
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
+    const country = formData.get("country") as string;
+    const locality = formData.get("locality") as string;
+    const period = formData.get("period") as string;
+    const stages = formData.get("stages") as string;
+    const weight = Number(formData.get("weight") as unknown);
     const price = Number(formData.get("price") as unknown);
     const stock = Number(formData.get("stock") as unknown);
     const images = formData.getAll("images") as string[];
@@ -331,11 +336,16 @@ export const updateProduct = async (formData: FormData) => {
       await prisma.products.update({
         where: { id },
         data: {
-          title: title,
-          description: description,
-          price: price,
-          stock: stock,
-          images: images,
+          title,
+           description,
+           price,
+           stock,
+           images,
+           country,
+           locality,
+           period,
+           stages,
+           weight
         },
       });
     }

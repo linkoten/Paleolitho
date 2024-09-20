@@ -67,7 +67,7 @@ export default function SelectImage({
       const newLevel = prevLevel + delta;
       return Math.max(0, Math.min(newLevel, zoomLevels.length - 1));
     });
-  }, []);
+  }, [zoomLevels.length]);
 
   const handleWheel = useCallback(
     (event: React.WheelEvent) => {
@@ -78,7 +78,6 @@ export default function SelectImage({
 
   const words = product.description;
 
-  const words2 = product.title;
 
   return (
     <section>

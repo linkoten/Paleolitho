@@ -91,7 +91,7 @@ export default function Filters(items: any) {
         <Select
           onValueChange={(value: string) => handleSelect("category", value)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] hover:brightness-125 hover:border hover:border-slate-700 hover:font-bold hover:scale-110">
             <SelectValue placeholder="Catégories" />
           </SelectTrigger>
           <SelectContent>
@@ -109,7 +109,7 @@ export default function Filters(items: any) {
         <Select
           onValueChange={(value: string) => handleSelect("country", value)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] hover:brightness-125 hover:border hover:border-slate-700 hover:font-bold hover:scale-110">
             <SelectValue placeholder="Pays" />
           </SelectTrigger>
           <SelectContent>
@@ -127,7 +127,7 @@ export default function Filters(items: any) {
         <Select
           onValueChange={(value: string) => handleSelect("locality", value)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] hover:brightness-125 hover:border hover:border-slate-700 hover:font-bold hover:scale-110">
             <SelectValue placeholder="Provenances" />
           </SelectTrigger>
           <SelectContent>
@@ -145,7 +145,7 @@ export default function Filters(items: any) {
         <Select
           onValueChange={(value: string) => handleSelect("period", value)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] hover:brightness-125 hover:border hover:border-slate-700 hover:font-bold hover:scale-110">
             <SelectValue placeholder="Eres Géologique" />
           </SelectTrigger>
           <SelectContent>
@@ -163,7 +163,7 @@ export default function Filters(items: any) {
         <Select
           onValueChange={(value: string) => handleSelect("stages", value)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] hover:brightness-125 hover:border hover:border-slate-700 hover:font-bold hover:scale-110">
             <SelectValue placeholder="Epoques/Etages" />
           </SelectTrigger>
           <SelectContent>

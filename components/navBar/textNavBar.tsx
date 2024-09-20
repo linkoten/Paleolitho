@@ -89,8 +89,8 @@ export function SidebarDemo({ user }: any) {
 export const Logo = () => {
   return (
     <Link
-      href="/public/favicon.png"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+    href="/dashboard/shop"
+    className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
       <Image
         src={Favicon}
@@ -112,7 +112,7 @@ export const Logo = () => {
 export const LogoIcon = () => {
   return (
     <Link
-      href="/public/favicon.png"
+      href="/dashboard/shop"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
       <Image

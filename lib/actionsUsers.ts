@@ -22,7 +22,7 @@ export const getUser = async () => {
   });
 
   // Check if user email matches and role is USER
-  if (user && user.email === "cattofrancois@gmail.com" || "patrick.catto@outlook.fr" && user?.role === "USER") {
+  if (user && (user.email === "cattofrancois@hotmail.com" || user.email === "patrick.catto@outlook.fr") && user.role === "USER") {
     try {
       await prisma.user.update({
         where: { id: user.id },

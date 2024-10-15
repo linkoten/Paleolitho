@@ -62,14 +62,12 @@ export const toggleFavorite = async (formData: FormData) => {
         },
       });
       return favorite;
-
     }
-    
   } catch (error) {
     console.error("Error toggling favorite:", error);
     throw error;
   } finally {
-    revalidatePath("/")
+    revalidatePath("/");
   }
 };
 
@@ -107,12 +105,9 @@ export async function rateProduct(formData: FormData) {
         productId,
         rating,
       },
-      
     });
-
   }
-  redirect(`/dashboard/shop/${productId}`)
-
+  redirect(`/dashboard/shop/${productId}`);
 }
 export const getProductRatings = async (productId: string) => {
   const productRatings = await prisma.products.findUnique({
@@ -175,8 +170,7 @@ export async function fetchFilteredPages(
   locality: string,
   period: string,
   stages: string,
-  category: string,
-
+  category: string
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
@@ -312,7 +306,7 @@ export const getProduct = async (id: string) => {
   });
 
   if (product && product.images) {
-    product.images = product.images.filter(image => image !== '');
+    product.images = product.images.filter((image) => image !== "");
   }
 
   return product;
@@ -323,6 +317,7 @@ export const updateProduct = async (formData: FormData) => {
     const id = formData.get("id") as string;
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
+    const category = formData.get("category") as string;
     const country = formData.get("country") as string;
     const locality = formData.get("locality") as string;
     const period = formData.get("period") as string;
@@ -337,15 +332,15 @@ export const updateProduct = async (formData: FormData) => {
         where: { id },
         data: {
           title,
-           description,
-           price,
-           stock,
-           images,
-           country,
-           locality,
-           period,
-           stages,
-           weight
+          description,
+          price,
+          stock,
+          images,
+          country,
+          locality,
+          period,
+          stages,
+          weight,
         },
       });
     }

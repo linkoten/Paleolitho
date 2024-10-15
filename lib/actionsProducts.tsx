@@ -335,6 +335,7 @@ export const updateProduct = async (formData: FormData) => {
           description,
           price,
           stock,
+          category,
           images,
           country,
           locality,

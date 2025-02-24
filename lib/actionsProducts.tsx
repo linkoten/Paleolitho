@@ -395,3 +395,94 @@ export const restoreProductStock = async (productId: string, quantity: any) => {
     console.error("Error incrementing product stock:", error);
   }
 };
+
+export async function getProductsByCategory(category: string) {
+  const selectFields = {
+    id: true,
+    title: true,
+    images: true,
+    category: true,
+    country: true,
+    locality: true,
+    period: true,
+    stages: true,
+  } as const;
+
+  // Le type sera automatiquement inféré en fonction des champs sélectionnés
+  return await prisma.products.findMany({
+    where: { category },
+    select: selectFields,
+  });
+}
+
+export async function getProductsByCountry(country: string) {
+  const selectFields = {
+    id: true,
+    title: true,
+    images: true,
+    category: true,
+    country: true,
+    locality: true,
+    period: true,
+    stages: true,
+  } as const;
+
+  return await prisma.products.findMany({
+    where: { country },
+    select: selectFields,
+  });
+}
+
+export async function getProductsByLocality(locality: string) {
+  const selectFields = {
+    id: true,
+    title: true,
+    images: true,
+    category: true,
+    country: true,
+    locality: true,
+    period: true,
+    stages: true,
+  } as const;
+
+  return await prisma.products.findMany({
+    where: { locality },
+    select: selectFields,
+  });
+}
+
+export async function getProductsByPeriod(period: string) {
+  const selectFields = {
+    id: true,
+    title: true,
+    images: true,
+    category: true,
+    country: true,
+    locality: true,
+    period: true,
+    stages: true,
+  } as const;
+
+  return await prisma.products.findMany({
+    where: { period },
+    select: selectFields,
+  });
+}
+
+export async function getProductsByStage(stages: string) {
+  const selectFields = {
+    id: true,
+    title: true,
+    images: true,
+    category: true,
+    country: true,
+    locality: true,
+    period: true,
+    stages: true,
+  } as const;
+
+  return await prisma.products.findMany({
+    where: { stages },
+    select: selectFields,
+  });
+}

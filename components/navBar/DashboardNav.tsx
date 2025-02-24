@@ -1,10 +1,10 @@
 "use client";
 
-import { SidebarDemo } from "./textNavBar";
+import { SidebarDemo } from "./SidebarDemo";
 
-export default function DashboardNav({user}: any) {
+export default function DashboardNav({ user }: any) {
   return (
-    <nav className="   gap-2">
+    <nav className="fixed left-0 top-1/4 h-2/3 z-10 ">
       <SidebarDemo user={user} />
     </nav>
   );

@@ -17,11 +17,15 @@ export default async function page() {
   console.log("Je suis les favoris", favoriteProducts);
   return (
     <div className="grid grid-cols-2 gap-4">
-            <Suspense fallback={<Loading />}>
-
-      {favoriteProducts.favorites.map((data, index) => (
-        <FavoriteList key={index} data={data?.product} user={user} favorite={favoriteProducts} />
-      ))}
+      <Suspense fallback={<Loading />}>
+        {favoriteProducts.favorites.map((data, index) => (
+          <FavoriteList
+            key={index}
+            data={data?.product}
+            user={user}
+            favorite={favoriteProducts}
+          />
+        ))}
       </Suspense>
     </div>
   );

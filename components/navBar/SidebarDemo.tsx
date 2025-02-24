@@ -1,16 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { NotebookPen, Settings, CreditCard, House } from "lucide-react";
+import {
+  NotebookPen,
+  Settings,
+  CreditCard,
+  HomeIcon as House,
+} from "lucide-react";
 import Favicon from "@/public/favicon.png";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 
 export function SidebarDemo({ user }: any) {
-
-  const userEmail = user.email as string
+  const userEmail = user.email as string;
   const links = [
     {
       label: "Home",
@@ -46,19 +50,23 @@ export function SidebarDemo({ user }: any) {
       : []),
   ];
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+
   return (
     <div
       className={cn(
-        "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl mx-auto border border-neutral-200 dark:border-neutral-700 max-sm:overflow-x-auto",
-        "h-[7vh] md:h-[70vh]" 
+        "h-full transition-all duration-300 ease-in-out",
+        open ? "w-64" : "w-16",
+        "bg-gray-100 dark:bg-neutral-800 border-r border-neutral-200 dark:border-neutral-700"
       )}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
     >
-      <Sidebar open={open} setOpen={setOpen} >
-        <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-col flex-1  overflow-x-hidden">
+      <Sidebar open={open} setOpen={setOpen}>
+        <SidebarBody className="flex flex-col justify-between h-full py-4">
+          <div className="flex flex-col flex-1 overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
-            <div className="mt-8 pl-2 flex flex-col h-full justify-around ">
+            <div className="mt-8 pl-2 flex flex-col space-y-4">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
@@ -67,11 +75,11 @@ export function SidebarDemo({ user }: any) {
           <div>
             <SidebarLink
               link={{
-                label: userEmail ,
+                label: userEmail,
                 href: "#",
                 icon: (
                   <Image
-                    src={Favicon}
+                    src={Favicon || "/placeholder.svg"}
                     className="h-7 w-7 flex-shrink-0 rounded-full"
                     width={50}
                     height={50}
@@ -86,14 +94,15 @@ export function SidebarDemo({ user }: any) {
     </div>
   );
 }
+
 export const Logo = () => {
   return (
     <Link
-    href="/dashboard/shop"
-    className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+      href="/dashboard/shop"
+      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
       <Image
-        src={Favicon}
+        src={Favicon || "/placeholder.svg"}
         height={512}
         width={512}
         alt="Favicon Paleolitho"
@@ -116,7 +125,7 @@ export const LogoIcon = () => {
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
       <Image
-        src={Favicon}
+        src={Favicon || "/placeholder.svg"}
         height={512}
         width={512}
         alt="Favicon Paleolitho"

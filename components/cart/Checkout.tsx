@@ -6,10 +6,6 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import CountryModal from "@/components/cart/CountryModal"; // Assurez-vous que le chemin est correct
 
-
-
-
-
 export default function Checkout(user: any) {
   const [loading, setLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -19,13 +15,14 @@ export default function Checkout(user: any) {
   useEffect(() => {
     const checkStockAvailability = () => {
       const cartItems = user.user.cart.cartItems;
-      const isStockExceeded = cartItems.some((item: any)  => item.quantity > item.product.stock);
+      const isStockExceeded = cartItems.some(
+        (item: any) => item.quantity > item.product.stock
+      );
       setIsButtonDisabled(isStockExceeded);
     };
 
     checkStockAvailability();
   }, [user]);
-
 
   const handleCheckoutClick = () => {
     setIsModalOpen(true);
@@ -43,10 +40,10 @@ export default function Checkout(user: any) {
       console.log("Cart items:", cartItems, selectedCountry);
 
       // Send all cart items in one request
-      const response = await axios.post(
-        "/api/webhook/stripe/payment",
-        {cartItems, country: selectedCountry}
-      );
+      const response = await axios.post("/api/webhook/stripe/payment", {
+        cartItems,
+        country: selectedCountry,
+      });
       const responseData = await response.data;
       console.log("Response data:", responseData);
       window.location.href = responseData.url;
@@ -67,10 +64,11 @@ export default function Checkout(user: any) {
       </Button>
       {isButtonDisabled && (
         <p className="text-red-500 mt-2">
-          Certains articles de votre panier ont une quantité supérieure au stock disponible.
+          Certains articles de votre panier ont une quantité supérieure au stock
+          disponible.
         </p>
       )}
-       <CountryModal
+      <CountryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSelectCountry={handleCountrySelect}

@@ -31,11 +31,34 @@ import {
 } from "@/components/ui/dialog";
 import ProductRating from "./ProductRating";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
-
+import { InfiniteMovingCards } from "../ui/infinite-moving-cards";
+import {
+  getProductsByCategory,
+  getProductsByCountry,
+  getProductsByLocality,
+  getProductsByPeriod,
+  getProductsByStage,
+} from "@/lib/actionsProducts";
+import { Products, User } from "@prisma/client";
 interface SelectImageProps {
-  product: any;
-  user: any;
+  product: Products;
+  user: User;
   ratings: any;
+}
+
+type ProductWithoutSomeProps = Omit<
+  Products,
+  | "description"
+  | "price"
+  | "createdAt"
+  | "updatedAt"
+  | "stock"
+  | "weight"
+  | "globalRating"
+>;
+
+interface RelatedProductsState {
+  [key: string]: ProductWithoutSomeProps[];
 }
 
 export default function SelectImage({
@@ -47,10 +70,12 @@ export default function SelectImage({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(0);
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
+  const [relatedProducts, setRelatedProducts] = useState<RelatedProductsState>(
+    {}
+  );
   const imageRef = useRef<HTMLDivElement>(null);
-
   const zoomLevels = [1, 1.5, 2, 2.5];
-
+  const [activeBadges, setActiveBadges] = useState<string[]>([]);
   const handleZoom = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current) return;
 
@@ -62,12 +87,15 @@ export default function SelectImage({
     setZoomPosition({ x, y });
   }, []);
 
-  const handleZoomChange = useCallback((delta: number) => {
-    setZoomLevel((prevLevel) => {
-      const newLevel = prevLevel + delta;
-      return Math.max(0, Math.min(newLevel, zoomLevels.length - 1));
-    });
-  }, [zoomLevels.length]);
+  const handleZoomChange = useCallback(
+    (delta: number) => {
+      setZoomLevel((prevLevel) => {
+        const newLevel = prevLevel + delta;
+        return Math.max(0, Math.min(newLevel, zoomLevels.length - 1));
+      });
+    },
+    [zoomLevels.length]
+  );
 
   const handleWheel = useCallback(
     (event: React.WheelEvent) => {
@@ -76,8 +104,41 @@ export default function SelectImage({
     [handleZoomChange]
   );
 
-  const words = product.description;
+  const handleBadgeClick = async (badgeType: string, value: string) => {
+    let products;
+    switch (badgeType) {
+      case "category":
+        products = await getProductsByCategory(value);
+        break;
+      case "country":
+        products = await getProductsByCountry(value);
+        break;
+      case "locality":
+        products = await getProductsByLocality(value);
+        break;
+      case "period":
+        products = await getProductsByPeriod(value);
+        break;
+      case "stages":
+        products = await getProductsByStage(value);
+        break;
+      default:
+        return;
+    }
 
+    setRelatedProducts((prev) => ({
+      ...prev,
+      [badgeType]: products,
+    }));
+
+    setActiveBadges((prev) =>
+      prev.includes(badgeType)
+        ? prev.filter((b) => b !== badgeType)
+        : [...prev, badgeType]
+    );
+  };
+
+  const words = product.description;
 
   return (
     <section>
@@ -112,7 +173,7 @@ export default function SelectImage({
                         onClick={() => {
                           setIsModalOpen(true);
                         }}
-                        alt={product.title}
+                        alt={product.title!}
                         className="rounded-lg w-auto h-full cursor-pointer object-cover"
                         fill
                         sizes="auto"
@@ -147,7 +208,7 @@ export default function SelectImage({
             {/* Deuxième colonne : Informations */}
             <div className="space-y-4 ">
               <div></div>
-              <TextGenerateEffect words={words} className= " text-xs" />
+              <TextGenerateEffect words={words!} className=" text-xs" />
 
               <ProductRating
                 productId={product.id}
@@ -155,11 +216,26 @@ export default function SelectImage({
                 ratings={ratings}
               />
               <div className="flex flex-wrap gap-2 justify-center">
-                <Badge>{product.category}</Badge>
-                <Badge>{product.country}</Badge>
-                <Badge>{product.locality}</Badge>
-                <Badge>{product.period}</Badge>
-                <Badge>{product.stages}</Badge>
+                {["category", "country", "locality", "period", "stages"].map(
+                  (badgeType) => (
+                    <Badge
+                      key={badgeType}
+                      onClick={() =>
+                        handleBadgeClick(
+                          badgeType,
+                          product[
+                            badgeType as keyof ProductWithoutSomeProps
+                          ] as string
+                        )
+                      }
+                      className={`cursor-pointer ${
+                        activeBadges.includes(badgeType) ? "bg-blue-600" : ""
+                      }`}
+                    >
+                      {product[badgeType as keyof ProductWithoutSomeProps]}
+                    </Badge>
+                  )
+                )}
               </div>
             </div>
             <Button
@@ -214,11 +290,32 @@ export default function SelectImage({
         </CardContent>
       </Card>
 
+      {activeBadges.map((badgeType) => (
+        <div key={badgeType} className="mt-8">
+          <h3 className="text-xl font-bold mb-4">
+            Related {badgeType.charAt(0).toUpperCase() + badgeType.slice(1)}{" "}
+            Products
+          </h3>
+          <InfiniteMovingCards
+            items={
+              relatedProducts[badgeType]?.map((p: ProductWithoutSomeProps) => ({
+                id: p.id,
+                title: p.title || "",
+                image: p.images[0],
+                badges: [p.category, p.country, p.locality, p.period, p.stages],
+              })) || []
+            }
+            direction="left"
+            speed="slow"
+          />
+        </div>
+      ))}
+
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent
           className="max-w-3xl"
-          title={product.title}
-          aria-describedby={product.title}
+          title={product.title!}
+          aria-describedby={product.title!}
         >
           <DialogTitle></DialogTitle>
           <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">

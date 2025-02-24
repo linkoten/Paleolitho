@@ -1,10 +1,9 @@
-"use server"
-import {prisma} from "./db";
+"use server";
+import { prisma } from "./db";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth"; 
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { revalidatePath } from "next/cache";
-
 
 export const getUser = async () => {
   const session = await getServerSession(authOptions);
@@ -18,11 +17,15 @@ export const getUser = async () => {
   const user = await prisma.user.findUnique({
     where: { id },
     include: { cart: true }, // Inclure la relation cart
-
   });
 
   // Check if user email matches and role is USER
-  if (user && (user.email === "cattofrancois@hotmail.com" || user.email === "patrick.catto@outlook.fr") && user.role === "USER") {
+  if (
+    user &&
+    (user.email === "catto.francois@hotmail.com" ||
+      user.email === "patrick.catto@outlook.fr") &&
+    user.role === "USER"
+  ) {
     try {
       await prisma.user.update({
         where: { id: user.id },
@@ -50,24 +53,22 @@ export const getUser = async () => {
   return user;
 };
 
-
 export const updateUser = async (formData: FormData) => {
   try {
-    const userName = formData.get('name') as string; 
-    const id = formData.get('id') as string; 
-
+    const userName = formData.get("name") as string;
+    const id = formData.get("id") as string;
 
     if (userName !== null) {
       await prisma.user.update({
-        where: { id } ,
-        data: { name: userName},
+        where: { id },
+        data: { name: userName },
       });
     }
   } catch (error) {
-    console.error('Error updating user:', error);
-  }finally {
-    revalidatePath('/')
-  } 
+    console.error("Error updating user:", error);
+  } finally {
+    revalidatePath("/");
+  }
 };
 
 export const deleteUser = async () => {
@@ -75,10 +76,10 @@ export const deleteUser = async () => {
 
   const userId = session?.user.id as string;
 
-   if (!session || !session.user || !session.user.id) {
-    redirect("../")
+  if (!session || !session.user || !session.user.id) {
+    redirect("../");
   }
-  
+
   await prisma.user.deleteMany({
     where: { stripeCustomerId: userId },
   });
@@ -94,6 +95,5 @@ export const deleteUser = async () => {
     where: { userId: userId },
   });
 
-  return redirect('../');
+  return redirect("../");
 };
-

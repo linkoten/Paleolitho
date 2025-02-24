@@ -109,9 +109,7 @@ const renderers = {
   ),
 };
 
-export async function generateMetadata({
-  params,
-}: any): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const post = await getPost(params.slug);
   return {
     title: post?.title,
@@ -143,8 +141,7 @@ export default async function page({ params }: any) {
         </BreadcrumbList>
       </Breadcrumb>
       <Suspense fallback={<Loading />}>
-
-      <RichText content={post.content.json.children} renderers={renderers} />
+        <RichText content={post.content.json.children} renderers={renderers} />
       </Suspense>
     </>
   );

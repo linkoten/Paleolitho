@@ -17,9 +17,9 @@ export default async function SuccessPage() {
       const productId = product.product.id;
       const quantity = product.quantity;
       decrementProductStock(productId, quantity); // Call your function here
+      await emptyCart(user?.id as string);
     }
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    await emptyCart(user?.id as string);
   }
 
   return (

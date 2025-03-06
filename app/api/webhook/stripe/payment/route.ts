@@ -93,20 +93,22 @@ export const POST = async (request: NextRequest) => {
     const customer = await stripe.customers.create({ email: user.email });
     console.log("Customer created:", customer);
 
-    const lineItems = cartItems.map((product: Product) => {
-      const amountInCents = Math.round(product.price * 100);
+    console.log("cartItems", cartItems);
+
+    const lineItems = cartItems.map((product: any) => {
+      const amountInCents = Math.round(product.product.price * 100);
       if (amountInCents < 50) {
         throw new Error(
-          `The price of ${product.title} is too low, must be at least 0.50 in your currency.`
+          `The price of ${product.product.title} is too low, must be at least 0.50 in your currency.`
         );
       }
       return {
         quantity: product.quantity,
         price_data: {
           product_data: {
-            name: product.title,
-            description: product.description,
-            images: [product.image[0]],
+            name: product.product.title,
+            description: product.product.description,
+            images: [product.product.images[0]],
           },
           currency: "EUR",
           unit_amount: amountInCents,

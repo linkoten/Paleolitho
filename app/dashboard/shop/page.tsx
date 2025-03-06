@@ -4,7 +4,6 @@ import {
   getAllProducts,
 } from "@/lib/actionsProducts";
 import ListCards from "@/components/shop/ProductsList";
-import { getUser } from "@/lib/actionsUsers";
 import Pagination from "@/components/shop/Pagination";
 import Search from "@/components/shop/Search";
 import Filters from "@/components/shop/Filters";
@@ -20,11 +19,14 @@ import {
 import { Suspense } from "react";
 import Loading from "@/components/Loading";
 import { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { getUserFromDatabase } from "@/lib/userAction";
 
 export const metadata: Metadata = {
   title: "Paleolitho/shop",
-  description: "Official Shop of Paleolitho where you can find and buy Fossils"
-}
+  description: "Official Shop of Paleolitho where you can find and buy Fossils",
+};
 
 export default async function Home({
   searchParams,
@@ -39,7 +41,13 @@ export default async function Home({
     category?: string;
   };
 }) {
-  const user = await getUser();
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await getUserFromDatabase(userId); // Get from YOUR DB (again, now with stripeCustomerId)
 
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;

@@ -1,4 +1,3 @@
-import { getUser } from "@/lib/actionsUsers";
 import { redirect } from "next/navigation";
 import React from "react";
 import {
@@ -16,9 +15,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { createProduct } from "@/lib/actionsProducts";
 import Link from "next/link";
 import ButtonToast from "@/components/ButtonToast";
+import { auth } from "@clerk/nextjs/server";
+import { getUserFromDatabase } from "@/lib/userAction";
 
 export default async function page() {
-  const user = await getUser();
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await getUserFromDatabase(userId); // Get from YOUR DB (again, now with stripeCustomerId)
 
   const toastText = "Le produit a été créé";
 
@@ -190,7 +197,7 @@ export default async function page() {
                 name="images"
                 id="image9"
               />
-               <Input
+              <Input
                 placeholder="Lien de l'image 10"
                 type="text"
                 name="images"

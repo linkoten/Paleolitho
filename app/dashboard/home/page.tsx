@@ -1,16 +1,24 @@
 import FavoriteList from "@/components/shop/FavoriteList";
 import Loading from "@/components/Loading";
 import { getFavoritesProducts } from "@/lib/actionsProducts";
-import { getUser } from "@/lib/actionsUsers";
 import React, { Suspense } from "react";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { getUserFromDatabase } from "@/lib/userAction";
 
 export default async function page() {
-  const user = await getUser();
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await getUserFromDatabase(userId); // Get from YOUR DB (again, now with stripeCustomerId)
 
   if (!user) return;
-  const userId = user.id;
+  const userId2 = user.id;
 
-  const favoriteProducts = await getFavoritesProducts(userId);
+  const favoriteProducts = await getFavoritesProducts(userId2);
 
   if (!favoriteProducts) return;
 

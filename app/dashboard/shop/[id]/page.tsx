@@ -1,9 +1,11 @@
 import React, { Suspense } from "react";
 import { getProduct, getProductRatings } from "@/lib/actionsProducts";
-import { getUser } from "@/lib/actionsUsers";
 import SelectImage from "@/components/shop/SelectImage";
 import Loading from "@/components/Loading";
 import { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { getUserFromDatabase } from "@/lib/userAction";
 
 interface Params {
   id: string;
@@ -30,7 +32,13 @@ export async function generateMetadata({
 
 export default async function page({ params }: ProductPageProps) {
   const product = await getProduct(params.id);
-  const user = await getUser();
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await getUserFromDatabase(userId); // Get from YOUR DB (again, now with stripeCustomerId)
 
   if (!product) return;
   if (!user) return;

@@ -1,4 +1,6 @@
-import { getUser } from "@/lib/actionsUsers";
+import { getUserFromDatabase } from "@/lib/userAction";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -76,8 +78,14 @@ export const POST = async (request: NextRequest) => {
     cartItems.forEach((item: any) => {
       totalWeight += item.product.weight * item.quantity;
     });
-  
-    const user = await getUser();
+
+    const { userId } = await auth();
+
+    /*if (!userId) {
+    redirect("/");
+  }*/
+
+    const user = await getUserFromDatabase(userId!); // Get from YOUR DB (again, now with stripeCustomerId)
     if (!user?.email) {
       throw new Error("User not authenticated");
     }
@@ -85,8 +93,8 @@ export const POST = async (request: NextRequest) => {
     const customer = await stripe.customers.create({ email: user.email });
     console.log("Customer created:", customer);
 
-    const lineItems = cartItems.map((product: any) => {
-      const amountInCents = Math.round(product.product.price * 100);
+    const lineItems = cartItems.map((product: Product) => {
+      const amountInCents = Math.round(product.price * 100);
       if (amountInCents < 50) {
         throw new Error(
           `The price of ${product.title} is too low, must be at least 0.50 in your currency.`
@@ -96,9 +104,9 @@ export const POST = async (request: NextRequest) => {
         quantity: product.quantity,
         price_data: {
           product_data: {
-            name: product.product.title,
-            description: product.product.description,
-            images: [product.product.images[0]],
+            name: product.title,
+            description: product.description,
+            images: [product.image[0]],
           },
           currency: "EUR",
           unit_amount: amountInCents,
@@ -323,8 +331,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -355,8 +362,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -387,8 +393,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -419,8 +424,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -451,8 +455,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -483,8 +486,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -515,8 +517,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -547,8 +548,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -578,8 +578,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -609,8 +608,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -640,8 +638,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -671,8 +668,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -702,8 +698,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -733,8 +728,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -764,8 +758,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -795,8 +788,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -826,8 +818,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -857,8 +848,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -888,8 +878,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -919,8 +908,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -950,8 +938,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -981,8 +968,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -1012,8 +998,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -1043,8 +1028,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -1074,8 +1058,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -1105,8 +1088,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -1136,8 +1118,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -1167,8 +1148,7 @@ export const POST = async (request: NextRequest) => {
         mode: "payment", // Mode de paiement unique
         billing_address_collection: "required",
         shipping_address_collection: {
-          allowed_countries: [country
-          ], // Liste des pays de l'Union Européenne
+          allowed_countries: [country], // Liste des pays de l'Union Européenne
         },
         shipping_options: [
           {
@@ -1199,15 +1179,14 @@ export const POST = async (request: NextRequest) => {
           mode: "payment", // Mode de paiement unique
           billing_address_collection: "required",
           shipping_address_collection: {
-            allowed_countries: [country
-            ], // Liste des pays de l'Union Européenne
+            allowed_countries: [country], // Liste des pays de l'Union Européenne
           },
           shipping_options: [
             {
               shipping_rate_data: {
                 type: "fixed_amount",
                 fixed_amount: {
-                  amount: 3160, 
+                  amount: 3160,
                   currency: "eur",
                 },
                 display_name: "Livraison Zone C",
@@ -1230,15 +1209,14 @@ export const POST = async (request: NextRequest) => {
           mode: "payment", // Mode de paiement unique
           billing_address_collection: "required",
           shipping_address_collection: {
-            allowed_countries: [country
-            ], // Liste des pays de l'Union Européenne
+            allowed_countries: [country], // Liste des pays de l'Union Européenne
           },
           shipping_options: [
             {
               shipping_rate_data: {
                 type: "fixed_amount",
                 fixed_amount: {
-                  amount: 3515, 
+                  amount: 3515,
                   currency: "eur",
                 },
                 display_name: "Livraison Zone C, moins de 1kg",
@@ -1261,15 +1239,14 @@ export const POST = async (request: NextRequest) => {
           mode: "payment", // Mode de paiement unique
           billing_address_collection: "required",
           shipping_address_collection: {
-            allowed_countries: [country
-            ], // Liste des pays de l'Union Européenne
+            allowed_countries: [country], // Liste des pays de l'Union Européenne
           },
           shipping_options: [
             {
               shipping_rate_data: {
                 type: "fixed_amount",
                 fixed_amount: {
-                  amount: 4850, 
+                  amount: 4850,
                   currency: "eur",
                 },
                 display_name: "Livraison Zone C, moins de 2kg",
@@ -1292,8 +1269,7 @@ export const POST = async (request: NextRequest) => {
           mode: "payment", // Mode de paiement unique
           billing_address_collection: "required",
           shipping_address_collection: {
-            allowed_countries: [country
-            ], // Liste des pays de l'Union Européenne
+            allowed_countries: [country], // Liste des pays de l'Union Européenne
           },
           shipping_options: [
             {
@@ -1323,8 +1299,7 @@ export const POST = async (request: NextRequest) => {
           mode: "payment", // Mode de paiement unique
           billing_address_collection: "required",
           shipping_address_collection: {
-            allowed_countries: [country
-            ], // Liste des pays de l'Union Européenne
+            allowed_countries: [country], // Liste des pays de l'Union Européenne
           },
           shipping_options: [
             {
@@ -1354,8 +1329,7 @@ export const POST = async (request: NextRequest) => {
           mode: "payment", // Mode de paiement unique
           billing_address_collection: "required",
           shipping_address_collection: {
-            allowed_countries: [country
-            ], // Liste des pays de l'Union Européenne
+            allowed_countries: [country], // Liste des pays de l'Union Européenne
           },
           shipping_options: [
             {
@@ -1378,15 +1352,14 @@ export const POST = async (request: NextRequest) => {
           cancel_url: `${process.env.DOMAIN_URL}/dashboard/payment/cancel`, // URL d'annulation
           line_items: lineItems,
         });
-      }  else {
+      } else {
         checkOutSession = await stripe.checkout.sessions.create({
           payment_method_types: ["card"], // Méthodes de paiement acceptées
           customer: customer.id,
           mode: "payment", // Mode de paiement unique
           billing_address_collection: "required",
           shipping_address_collection: {
-            allowed_countries: [country
-            ], // Liste des pays de l'Union Européenne
+            allowed_countries: [country], // Liste des pays de l'Union Européenne
           },
           shipping_options: [
             {

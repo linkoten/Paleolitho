@@ -1,5 +1,4 @@
 import { getAllProducts } from "@/lib/actionsProducts";
-import { getUser } from "@/lib/actionsUsers";
 import { redirect } from "next/navigation";
 import React from "react";
 import { Button } from "@/components/ui/button";
@@ -17,9 +16,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { auth } from "@clerk/nextjs/server";
+import { getUserFromDatabase } from "@/lib/userAction";
 
 export default async function page() {
-  const user = await getUser();
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const user = await getUserFromDatabase(userId); // Get from YOUR DB (again, now with stripeCustomerId)
+
   const data = await getAllProducts();
 
   if (!user) {
@@ -52,9 +60,7 @@ export default async function page() {
               Commencez des maintenant à créer des produits via notre
               application
             </p>
-            <Button
-              className="bg-orange-500 hover:bg-orange-600 text-white mt-4 "
-            >
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white mt-4 ">
               <Link href="/dashboard/admin/createProduct">
                 Créer un nouveau produit
               </Link>
@@ -83,7 +89,8 @@ export default async function page() {
                       {item.price + " €"}
                     </TableCell>
                     <TableCell className=" flex justify-end items-center space-x-2">
-                      <Button asChild
+                      <Button
+                        asChild
                         type="button"
                         className="bg-yellow-500 hover:bg-yellow-600 text-white "
                       >

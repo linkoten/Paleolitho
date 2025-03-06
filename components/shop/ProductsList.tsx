@@ -1,39 +1,38 @@
-import {  User } from "@prisma/client";
-import Card from "./ProductsCard";
+"use server";
+
+import { User } from "@prisma/client";
+import BentoGridProducts from "./BentoGridProducts";
+import { getFavoritesProducts } from "@/lib/actionsProducts";
 
 interface Products {
   id: string;
-  title: string | null; // Allow title to be null
+  title: string | null;
   description: string | null;
   createdAt: Date;
   updatedAt: Date;
   price: number;
   stock: number;
   images: string[];
-  category: string
+  category: string;
   country: string;
   locality: string;
   period: string;
-  stages: string
+  stages: string;
 }
 
 interface ListCardsProps {
   products: Products[];
   user: User;
-
 }
 
-function ListCards({ products, user }: ListCardsProps) {
+async function ListCards({ products, user }: ListCardsProps) {
+  const userId = user.id;
+  const favorite = await getFavoritesProducts(userId);
 
-  console.log(products)
   return (
-    <section className="p-3">
-      <div className="max-w-[1200px] p-12 sm:p-0 mx-auto grid grid-cols-1 lg:grid-cols-2  gap-6 pt-6 ">
-        {products.map((item, index) => (
-          <Card key={index} item={item} user={user} />
-        ))}
-      </div>
-    </section>
+    <div className="container mx-auto py-6">
+      <BentoGridProducts products={products} user={user} favorite={favorite} />
+    </div>
   );
 }
 

@@ -28,12 +28,12 @@ export default function Checkout(user: any) {
     setIsModalOpen(true);
   };
 
-  const handleCountrySelect = (country: any) => {
+  const handleCountrySelect = (country: string) => {
     setSelectedCountry(country);
     checkout(country);
   };
 
-  const checkout = async (selectedCountry: any) => {
+  const checkout = async (selectedCountry: string) => {
     setLoading(true);
     try {
       const cartItems = user.user.cart.cartItems;

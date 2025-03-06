@@ -2,12 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
-import { getUser } from "@/lib/actionsUsers";
 import { getCart, emptyCart } from "@/lib/actionsCart";
 import { decrementProductStock } from "@/lib/actionsProducts";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { getUserFromDatabase } from "@/lib/userAction";
 
 export default async function SuccessPage() {
-  const user = await getUser();
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+  const user = await getUserFromDatabase(userId); // Get from YOUR DB (again, now with stripeCustomerId)
   const cart = await getCart(user?.id as string); // Attempt to get the cart
   console.log("je suis le user", cart?.cartItems);
   const cartItems = cart?.cartItems;
